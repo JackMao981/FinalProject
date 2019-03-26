@@ -47,7 +47,7 @@ class SpriteHandler:
 
         # initialize a list of the right size of sprites
         self.sprites = [None for _ in range(self.tile_count)]
-        
+
         # loop through the coordinates of the tileset, e.g. 32/4
         for x in range(self.tileset_height):
             for y in range(self.tileset_width):
@@ -134,7 +134,21 @@ class WallSprite(pygame.sprite.Sprite):
         self.rect.topleft = self.pos * 32
         print("made a new wall tile")
 
+class HeroSprite:
+    """Class Representing the player,
+    inherits pygame's sprite, extending it
+    with the method for loading fromt e sprite file
+    """
+    self.hero = Hero()
 
+class Character:
+    self.health = None
+    self.vel = None
+    self.pos = None
+    
+
+    def is_collision(self, char1, char2):
+        pass
 # Map Generator Class, for randomly generating a map
 # or for a constant map!
 class Map:
