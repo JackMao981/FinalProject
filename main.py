@@ -134,18 +134,29 @@ class WallSprite(pygame.sprite.Sprite):
         self.rect.topleft = self.pos * 32
         print("made a new wall tile")
 
-class HeroSprite:
+class HeroSprite(pygame.sprite.Sprite):
     """Class Representing the player,
     inherits pygame's sprite, extending it
     with the method for loading fromt e sprite file
     """
-    self.hero = Hero()
+    def __init__(self):
+        self.group = layer["TILE_HERO"]
+        pygame.sprite.Sprite.__init__(self,self.group)
+        self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in PLAYER_TILE]
+
+        self.rect - self.tile.get_rect()
+        self.pos = pygame.math.Vectro2(position[0], position[1])
+        self.rect.topleft = self.pos * 32
+#    def update(self): #handles pixels
+
+#    def move(self): #handles tiles
 
 class Character:
-    self.health = None
-    self.vel = None
-    self.pos = None
-    
+    def __init__(self, health, vel, pos):
+        self.health = health
+        self.vel = vel
+        self.pos = pos
+
 
     def is_collision(self, char1, char2):
         pass
@@ -189,10 +200,14 @@ if __name__ == "__main__":
 
 
     # run the game loop forever (for now just force quit)
-    while True:
+    run = True
+    while run:
         # need to get this to stop program
         # from freezing
         events = pygame.event.get()
+        for event in events:
+            if event.type == pygame.QUIT:
+                run = False
 
         # fill the screen with bg color
         screen.fill(pygame.Color(0,0,0))
@@ -206,3 +221,4 @@ if __name__ == "__main__":
                 tile_layers["TILE_FLOOR"].update()
                 screen.blit(tile.tile, tile.rect.move(0, 0))
         pygame.display.flip()
+    pygame.quit()
