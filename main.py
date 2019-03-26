@@ -142,14 +142,16 @@ class HeroSprite:
     inherits pygame's sprite, extending it
     with the method for loading fromt e sprite file
     """
-    def __init__(self):
+    def __init__(self, layer, sprite_sheet, position):
         self.group = layer["TILE_HERO"]
         pygame.sprite.Sprite.__init__(self,self.group)
         self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in PLAYER_TILE]
-
-        self.rect - self.tile.get_rect()
-        self.pos = pygame.math.Vectro2(position[0], position[1])
+        self.tile = self.tiles[0]
+        self.rect = self.tile.get_rect()
+        self.pos = pygame.math.Vector2(position[0], position[1])
         self.rect.topleft = self.pos * 32
+
+        print("added a new hero tile")
 #    def update(self): #handles pixels
 
 #    def move(self): #handles tiles
@@ -181,7 +183,8 @@ if __name__ == "__main__":
 
     tile_layers = {
         "TILE_WALL": pygame.sprite.Group(),
-        "TILE_FLOOR": pygame.sprite.Group()}
+        "TILE_FLOOR": pygame.sprite.Group(),
+        "TILE_HERO": pygame.sprite.Group()}
 
     # place some floor!
     FloorSprite(tile_layers, sprite_handler, (1, 1))
@@ -196,6 +199,11 @@ if __name__ == "__main__":
     FloorSprite(tile_layers, sprite_handler, (3, 3))
     FloorSprite(tile_layers, sprite_handler, (2, 3))
 
+<<<<<<< HEAD
+=======
+    WallSprite(tile_layers, sprite_handler, (4,4))
+    HeroSprite(tile_layers, sprite_handler, (5,5))
+>>>>>>> hero_logic
     # run the game loop forever (for now just force quit)
     run = True
     while run:
