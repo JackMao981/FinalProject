@@ -142,44 +142,24 @@ class HeroSprite:
     inherits pygame's sprite, extending it
     with the method for loading fromt e sprite file
     """
-
-    def __init__(self, layer, sprite_sheet, position):
-        # based on the pygame docs,
-        # we have to also initialize
-        # the parent class
-        self.group = layer["TILE_PLAYER"]
-        pygame.sprite.Sprite.__init__(self, self.group)
-
-        # load the images from the tileset
-        # uses list comprehension to grab
-        # locations from my const and fetches
-        # images for those locations
+    def __init__(self):
+        self.group = layer["TILE_HERO"]
+        pygame.sprite.Sprite.__init__(self,self.group)
         self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in PLAYER_TILE]
-        self.tile = self.tiles[0]
 
-        self.rect = self.tile.get_rect()
-        self.pos = pygame.math.Vector2(position[0], position[1])
+        self.rect - self.tile.get_rect()
+        self.pos = pygame.math.Vectro2(position[0], position[1])
         self.rect.topleft = self.pos * 32
-        print("made a new player tile")
+#    def update(self): #handles pixels
 
-        # self.hero = Hero()
-    
-    def update():
-        """Update the rectangle coordinates based on the location of the
-        the sprite"""
-        # in terms of pixels
-        pass
-
-    def move(pos_delta):
-        """Change the vector based on movement delta provided"""
-        # in terms of tiles
-        pass    
-
+#    def move(self): #handles tiles
 
 class Character:
-    health = None
-    vel = None
-    pos = None
+    def __init__(self, health, vel, pos):
+        self.health = health
+        self.vel = vel
+        self.pos = pos
+
 
     def is_collision(self, char1, char2):
         pass
@@ -217,10 +197,14 @@ if __name__ == "__main__":
     FloorSprite(tile_layers, sprite_handler, (2, 3))
 
     # run the game loop forever (for now just force quit)
-    while True:
+    run = True
+    while run:
         # need to get this to stop program
         # from freezing
         events = pygame.event.get()
+        for event in events:
+            if event.type == pygame.QUIT:
+                run = False
 
         # fill the screen with bg color
         screen.fill(pygame.Color(0,0,0))
@@ -234,3 +218,4 @@ if __name__ == "__main__":
                 tile_layers["TILE_FLOOR"].update()
                 screen.blit(tile.tile, tile.rect.move(0, 0))
         pygame.display.flip()
+    pygame.quit()
