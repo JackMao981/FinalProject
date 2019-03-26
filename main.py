@@ -7,6 +7,7 @@ import os
 import math
 import random
 
+from map import Map
 
 # !!SPRITE HANDLING!!
 
@@ -85,6 +86,7 @@ class SpriteHandler:
         we know how we encoded the data"""
         return self.sprites[pos[1] * self.tileset_width + pos[0]]
 
+
 class FloorSprite(pygame.sprite.Sprite):
     """Class Representing a floor tile,
     inherits pygame's sprite, extending it
@@ -134,26 +136,53 @@ class WallSprite(pygame.sprite.Sprite):
         self.rect.topleft = self.pos * 32
         print("made a new wall tile")
 
+
 class HeroSprite:
     """Class Representing the player,
     inherits pygame's sprite, extending it
     with the method for loading fromt e sprite file
     """
-    self.hero = Hero()
+
+    def __init__(self, layer, sprite_sheet, position):
+        # based on the pygame docs,
+        # we have to also initialize
+        # the parent class
+        self.group = layer["TILE_PLAYER"]
+        pygame.sprite.Sprite.__init__(self, self.group)
+
+        # load the images from the tileset
+        # uses list comprehension to grab
+        # locations from my const and fetches
+        # images for those locations
+        self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in PLAYER_TILE]
+        self.tile = self.tiles[0]
+
+        self.rect = self.tile.get_rect()
+        self.pos = pygame.math.Vector2(position[0], position[1])
+        self.rect.topleft = self.pos * 32
+        print("made a new player tile")
+
+        # self.hero = Hero()
+    
+    def update():
+        """Update the rectangle coordinates based on the location of the
+        the sprite"""
+        # in terms of pixels
+        pass
+
+    def move(pos_delta):
+        """Change the vector based on movement delta provided"""
+        # in terms of tiles
+        pass    
+
 
 class Character:
-    self.health = None
-    self.vel = None
-    self.pos = None
-    
+    health = None
+    vel = None
+    pos = None
 
     def is_collision(self, char1, char2):
         pass
-# Map Generator Class, for randomly generating a map
-# or for a constant map!
-class Map:
-    pass
-
 
 # Game Class, for handling game loop eventually
 class RogueLike:
@@ -186,7 +215,6 @@ if __name__ == "__main__":
     FloorSprite(tile_layers, sprite_handler, (3, 1))
     FloorSprite(tile_layers, sprite_handler, (3, 3))
     FloorSprite(tile_layers, sprite_handler, (2, 3))
-
 
     # run the game loop forever (for now just force quit)
     while True:
