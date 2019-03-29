@@ -12,7 +12,7 @@ import pygame
 # they all used pink pretty much
 WALL_TILE = [(0, 0)]
 FLOOR_TILE = [(1, 0)]
-PLAYER_TILE = [(0, 2)]
+PLAYER_TILE = [(2, 0)]
 
 SPRITE_PATH = "sprites/sprites_simple.bmp"
 
@@ -128,14 +128,15 @@ class WallSprite(pygame.sprite.Sprite):
         print("made a new wall tile")
 
 
-class HeroSprite:
+class HeroSprite(pygame.sprite.Sprite):
     """Class Representing the player,
     inherits pygame's sprite, extending it
     with the method for loading fromt e sprite file
     """
     def __init__(self, layer, sprite_sheet, position):
         self.group = layer["TILE_HERO"]
-        pygame.sprite.Sprite.__init__(self,self.group)
+        pygame.sprite.Sprite.__init__(self, self.group)
+
         self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in PLAYER_TILE]
         self.tile = self.tiles[0]
         self.rect = self.tile.get_rect()
@@ -143,16 +144,25 @@ class HeroSprite:
         self.rect.topleft = self.pos * 32
 
         print("added a new hero tile")
-#    def update(self): #handles pixels
 
-#    def move(self): #handles tiles
+    def update(self):
+       """handles sprite rect location in terms of pixels"""
+       self.rect.x = self.pos.x * 32
+       self.rect.y = self.pos.y * 32
 
-class Character:
-    def __init__(self, health, vel, pos):
-        self.health = health
-        self.vel = vel
-        self.pos = pos
+    def move(self, delta):
+       """handles tiles
+       delta: tuple with dx and dy, respectively"""
+       self.pos.x += delta[0]
+       self.pos.y += delta[1]
+       pass
+
+# class Character:
+#     def __init__(self, health, vel, pos):
+#         self.health = health
+#         self.vel = vel
+#         self.pos = pos
 
 
-    def is_collision(self, char1, char2):
-        pass
+#     def is_collision(self, char1, char2):
+#         pass
