@@ -78,13 +78,17 @@ class RogueLike():
                     run = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
-                        self.hero.move((-1,0))
+                        if not self.hero.collide(self.tile_layers["TILE_WALL"], (-1,0)):
+                            self.hero.move((-1,0)) 
                     if event.key == pygame.K_RIGHT:
-                        self.hero.move((1,0))
+                        if not self.hero.collide(self.tile_layers["TILE_WALL"], (1,0)):
+                            self.hero.move((1,0))
                     if event.key == pygame.K_UP:
-                        self.hero.move((0,-1))
+                        if not self.hero.collide(self.tile_layers["TILE_WALL"], (0,-1)):
+                            self.hero.move((0,-1))
                     if event.key == pygame.K_DOWN:
-                        self.hero.move((0,1))
+                        if not self.hero.collide(self.tile_layers["TILE_WALL"], (0,1)):
+                            self.hero.move((0,1))
             self.spriteRender()
         pygame.quit()
 

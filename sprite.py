@@ -157,6 +157,15 @@ class HeroSprite(pygame.sprite.Sprite):
        self.pos.y += delta[1]
        pass
 
+    def collide(self, layer, delta):
+        """check if character will collide with the given layer:
+        layer: group of sprites
+        delta: tuple with dx and dy, respectively"""
+        for tile in layer:
+            if tile.pos.x == self.pos.x + delta[0] and tile.pos.y == self.pos.y + delta[1]:
+                return tile
+        return False
+
 # class Character:
 #     def __init__(self, health, vel, pos):
 #         self.health = health
