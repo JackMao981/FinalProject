@@ -50,20 +50,7 @@ class RogueLike():
         """Run the main game loop"""
         # place some floor!
 
-        # call map.generate() here
-        FloorSprite(self.tile_layers, self.sprite_handler, (1, 1))
-        FloorSprite(self.tile_layers, self.sprite_handler, (1, 2))
-        FloorSprite(self.tile_layers, self.sprite_handler, (1, 3))
-
-        FloorSprite(self.tile_layers, self.sprite_handler, (4, 1))
-        FloorSprite(self.tile_layers, self.sprite_handler, (4, 2))
-        FloorSprite(self.tile_layers, self.sprite_handler, (4, 3))
-
-        FloorSprite(self.tile_layers, self.sprite_handler, (3, 1))
-        FloorSprite(self.tile_layers, self.sprite_handler, (3, 3))
-        FloorSprite(self.tile_layers, self.sprite_handler, (2, 3))
-
-        WallSprite(self.tile_layers, self.sprite_handler, (4,4))
+        self.map.generate(self)
 
         self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (5,5))
 
