@@ -1,6 +1,6 @@
 import pygame
 from sprite import SpriteHandler, WallSprite, FloorSprite, HeroSprite
-
+import random
 
 # Map Generator Class, for randomly generating a map
 # or for a constant map!
