@@ -1,7 +1,5 @@
 import pygame
 
-# !!SPRITE HANDLING!!
-
 # Define where objects are in our sprite file.
 # Each sprite is 4x4 pixels in size, and the
 # image is 32x32 pixels in size, to allow for
@@ -17,8 +15,8 @@ PLAYER_TILE = [(2, 0)]
 SPRITE_PATH = "sprites/sprites_simple.bmp"
 
 
-# Sprite class to handle common sprite operations
 class SpriteHandler:
+    """Sprite class to handle common sprite operations"""
     def __init__(self):
         # load the texture file into a surface
         # the beginner guide on pygame told me
@@ -49,15 +47,13 @@ class SpriteHandler:
 
                 # Later, we can define where the wall or item tiles are and
                 # fetch them using this system,
-                print("Adding a new sprite!")
                 self.sprites[y * self.tileset_width + x] = self.imageHandler((x * self.tile_width,
                                                                              y * self.tile_height), 32)
-        print("finished loading sprites!")
 
     def imageHandler(self, position, sprite_size):
-        # returns a pygame surface containing the
-        # tile at the given x,y position in terms
-        # of sprite size
+        """returns a pygame surface containing the
+        tile at the given x,y position in terms
+        of sprite size"""
 
         # new surface sized to the tile size
         image = pygame.Surface((self.tile_width, self.tile_height))
@@ -125,7 +121,6 @@ class WallSprite(pygame.sprite.Sprite):
         self.rect = self.tile.get_rect()
         self.pos = pygame.math.Vector2(position[0], position[1])
         self.rect.topleft = self.pos * 32
-        print("made a new wall tile")
 
 
 class HeroSprite(pygame.sprite.Sprite):
@@ -143,8 +138,6 @@ class HeroSprite(pygame.sprite.Sprite):
         self.pos = pygame.math.Vector2(position[0], position[1])
         self.rect.topleft = self.pos * 32
 
-        print("added a new hero tile")
-
     def update(self):
        """handles sprite rect location in terms of pixels"""
        self.rect.x = self.pos.x * 32
@@ -155,7 +148,6 @@ class HeroSprite(pygame.sprite.Sprite):
        delta: tuple with dx and dy, respectively"""
        self.pos.x += delta[0]
        self.pos.y += delta[1]
-       pass
 
     def collide(self, layer, delta):
         """check if character will collide with the given layer:

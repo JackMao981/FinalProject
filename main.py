@@ -1,3 +1,8 @@
+"""
+Rogue-like
+@author: Jack Mao and Dieter Brehm
+"""
+
 # grab the pygame library
 import pygame
 
@@ -13,9 +18,11 @@ from sprite import SpriteHandler, WallSprite, FloorSprite, HeroSprite
 # Game Class, for handling game loop eventually
 class RogueLike():
     def __init__(self):
-        """Initialize the roguelike game"""
+        """Initialize the roguelike game instance. Handles
+        utility functions necessary for pygame and the 
+        main game loop"""
         pygame.init()
-        self.screen = pygame.display.set_mode((400, 400))
+        self.screen = pygame.display.set_mode((700, 700))
         self.clock = pygame.time.Clock()
         
         # load the sprite image set
@@ -30,6 +37,7 @@ class RogueLike():
 
     def spriteRender(self):
         """Reblit all sprites onto the main screen"""
+
         # fill the screen with bg color
         self.screen.fill(pygame.Color(0,0,0))
 
@@ -42,7 +50,6 @@ class RogueLike():
                 self.tile_layers["TILE_FLOOR"].update()
                 self.tile_layers["TILE_HERO"].update()
                 self.map.viewport_update(self.hero)
-                # self.screen.blit(tile.tile, tile.rect.move(0, 0))
                 self.screen.blit(tile.tile, self.map.animator(tile))
 
         # write changes to screen
@@ -50,17 +57,17 @@ class RogueLike():
 
     def gameloop(self):
         """Run the main game loop"""
-        # place some floor!
 
+        # place map related tiles
         self.map.generate(self)
 
+        # create the hero!
         self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (5,5))
 
-        # run the game loop forever (for now just force quit)
+        # run the game loop until program is quit
         run = True
         while run:
-            # need to get this to stop program
-            # from freezing
+            # fetch all events
             events = pygame.event.get()
             for event in events:
                 if event.type == pygame.QUIT:
@@ -84,7 +91,6 @@ class RogueLike():
                             self.hero.move(delta)
             self.spriteRender()
         pygame.quit()
-
 
 
 if __name__ == "__main__":
