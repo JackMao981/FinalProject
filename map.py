@@ -7,11 +7,11 @@ import random
 class Map:
     def __init__(self):
         """Create a new handler for map related interactions"""
-        self.viewport = pygame.Rect(0, 0, 400, 400)
-        self.width = 400
-        self.height = 400
-        self.xset = int((400 - 32) / 2)
-        self.yset = int((400 - 32) / 2)
+        self.viewport = pygame.Rect(0, 0, 700, 700)
+        self.width = 700
+        self.height = 700
+        self.xset = int((700 - 32) / 2)
+        self.yset = int((700 - 32) / 2)
     
     def animator(self, tile):
         """Moves tiles according to the top left of the view port
