@@ -41,7 +41,9 @@ class RogueLike():
                 self.tile_layers["TILE_WALL"].update()
                 self.tile_layers["TILE_FLOOR"].update()
                 self.tile_layers["TILE_HERO"].update()
-                self.screen.blit(tile.tile, tile.rect.move(0, 0))
+                self.map.viewport_update(self.hero)
+                # self.screen.blit(tile.tile, tile.rect.move(0, 0))
+                self.screen.blit(tile.tile, self.map.animator(tile))
 
         # write changes to screen
         pygame.display.flip()
@@ -65,17 +67,21 @@ class RogueLike():
                     run = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
-                        if not self.hero.collide(self.tile_layers["TILE_WALL"], (-1,0)):
-                            self.hero.move((-1,0)) 
+                        delta = (-1, 0)
+                        if not self.hero.collide(self.tile_layers["TILE_WALL"], delta):
+                            self.hero.move(delta) 
                     if event.key == pygame.K_RIGHT:
-                        if not self.hero.collide(self.tile_layers["TILE_WALL"], (1,0)):
-                            self.hero.move((1,0))
+                        delta = (1, 0)
+                        if not self.hero.collide(self.tile_layers["TILE_WALL"], delta):
+                            self.hero.move(delta)
                     if event.key == pygame.K_UP:
-                        if not self.hero.collide(self.tile_layers["TILE_WALL"], (0,-1)):
-                            self.hero.move((0,-1))
+                        delta = (0, -1)
+                        if not self.hero.collide(self.tile_layers["TILE_WALL"], delta):
+                            self.hero.move(delta)
                     if event.key == pygame.K_DOWN:
-                        if not self.hero.collide(self.tile_layers["TILE_WALL"], (0,1)):
-                            self.hero.move((0,1))
+                        delta = (0, 1)
+                        if not self.hero.collide(self.tile_layers["TILE_WALL"], delta):
+                            self.hero.move(delta)
             self.spriteRender()
         pygame.quit()
 
