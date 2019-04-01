@@ -155,7 +155,7 @@ class HeroSprite(pygame.sprite.Sprite):
     """
 
     def __init__(self, layer, sprite_sheet, position, characteristics):
-        """Create a new 'hero' character. 
+        """Create a new 'hero' character.
         position: a tuple with x and y values respectively"""
         self.group = layer["TILE_HERO"]
         pygame.sprite.Sprite.__init__(self, self.group)
@@ -206,6 +206,8 @@ class HeroSprite(pygame.sprite.Sprite):
                 return True
         return False
 
+    #
+
 class EnemySprite(pygame.sprite.Sprite):
     """Class Representing the player,
     inherits pygame's sprite, extending it
@@ -213,7 +215,7 @@ class EnemySprite(pygame.sprite.Sprite):
     """
 
     def __init__(self, layer, sprite_sheet, position, characteristics):
-        """Create a new 'hero' character. 
+        """Create a new 'hero' character.
         position: a tuple with x and y values respectively"""
         self.group = layer["TILE_ENEMY"]
         pygame.sprite.Sprite.__init__(self, self.group)

@@ -97,7 +97,7 @@ class RogueLike():
                     if event.key == pygame.K_LEFT:
                         delta = (-1, 0)
                         if not self.hero.collide(self.tile_layers["TILE_WALL"], delta):
-                            self.hero.move(delta) 
+                            self.hero.move(delta)
                         if self.hero.doorCollide(self.tile_layers["TILE_DOOR"], delta):
                             print("level done!")
                             self.generate_level()
@@ -122,6 +122,10 @@ class RogueLike():
                         if self.hero.doorCollide(self.tile_layers["TILE_DOOR"], delta):
                             print("level done!")
                             self.generate_level()
+                        if self.hero.collide(self.tile_layers["TILE_ITEM"],delta):
+                            self.hero.add_item(self.tile_layers)
+                            print("adding an item")
+
             self.spriteRender()
 
             if(self.hero.characteristics.curr_health <= 0):
