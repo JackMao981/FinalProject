@@ -30,33 +30,32 @@ class Map:
 
     def generate(self, rogue):
         """Places map sprites"""
+        # for i in range(0, 20):
+        #     WallSprite(rogue.tile_layers, rogue.sprite_handler, (0,i))
+        # for i in range(0, 20):
+        #     WallSprite(rogue.tile_layers, rogue.sprite_handler, (i,0))
+        # for i in range(0, 20):
+        #     WallSprite(rogue.tile_layers, rogue.sprite_handler, (0,i))
+        # for i in range(0, 20):
+        #     WallSprite(rogue.tile_layers, rogue.sprite_handler, (0,i))
+        # for i in range(0, 20):
+        #     WallSprite(rogue.tile_layers, rogue.sprite_handler, (0,i))
 
-        for i in range(4, 20):
-            FloorSprite(rogue.tile_layers, rogue.sprite_handler, (i, 1))
-        for i in range(6, 10):
-            WallSprite(rogue.tile_layers, rogue.sprite_handler, (4,i))
+        for x in range(0, 20):
+            for y in range(0,20):
+                if random.random() > 0.3:
+                    FloorSprite(rogue.tile_layers, rogue.sprite_handler, (x, y))
 
-        FloorSprite(rogue.tile_layers, rogue.sprite_handler, (1, 1))
-        FloorSprite(rogue.tile_layers, rogue.sprite_handler, (1, 2))
-        FloorSprite(rogue.tile_layers, rogue.sprite_handler, (1, 3))
+        self.wall_placer(rogue)
 
-        FloorSprite(rogue.tile_layers, rogue.sprite_handler, (4, 1))
-        FloorSprite(rogue.tile_layers, rogue.sprite_handler, (4, 2))
-        FloorSprite(rogue.tile_layers, rogue.sprite_handler, (4, 3))
+    def wall_placer(self, rogue):
+        """place walls wherever there isn't floor"""
+        for x in range(-5,25):
+            for y in range(-5, 25):
+                overlap = False
+                for tile in rogue.tile_layers["TILE_FLOOR"]:
+                    if tile.pos.x == x and tile.pos.y == y:
+                        overlap = True
 
-        FloorSprite(rogue.tile_layers, rogue.sprite_handler, (3, 1))
-        FloorSprite(rogue.tile_layers, rogue.sprite_handler, (3, 3))
-        FloorSprite(rogue.tile_layers, rogue.sprite_handler, (2, 3))
-
-        FloorSprite(rogue.tile_layers, rogue.sprite_handler, (4, 1))
-
-        # # place walls wherever there isn't floor
-        # for x in range(0,30):
-        #     for y in range(0, 30):
-        #         overlap = False
-        #         for tile in rogue.tile_layers["TILE_FLOOR"]:
-        #             if tile.pos.x == x and tile.pos.y == y:
-        #                 overlap = True
-
-        #         if not overlap:
-        #             WallSprite(rogue.tile_layers, rogue.sprite_handler, (x, y))
+                if not overlap:
+                    WallSprite(rogue.tile_layers, rogue.sprite_handler, (x, y))

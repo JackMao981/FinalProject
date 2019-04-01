@@ -157,13 +157,3 @@ class HeroSprite(pygame.sprite.Sprite):
             if tile.pos.x == self.pos.x + delta[0] and tile.pos.y == self.pos.y + delta[1]:
                 return tile
         return False
-
-# class Character:
-#     def __init__(self, health, vel, pos):
-#         self.health = health
-#         self.vel = vel
-#         self.pos = pos
-
-
-#     def is_collision(self, char1, char2):
-#         pass
