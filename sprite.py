@@ -154,6 +154,8 @@ class HeroSprite(pygame.sprite.Sprite):
     """
 
     def __init__(self, layer, sprite_sheet, position, characteristics):
+        """Create a new 'hero' character. 
+        position: a tuple with x and y values respectively"""
         self.group = layer["TILE_HERO"]
         pygame.sprite.Sprite.__init__(self, self.group)
         self.characteristics = characteristics
@@ -167,6 +169,15 @@ class HeroSprite(pygame.sprite.Sprite):
        """handles sprite rect location in terms of pixels"""
        self.rect.x = self.pos.x * 32
        self.rect.y = self.pos.y * 32
+
+    def posReset(self, position):
+        """reset the position of the player on level change
+        position: a tuple with x and y values respectively"""
+
+        pygame.sprite.Sprite.__init__(self, self.group)
+        self.rect = self.tile.get_rect()
+        self.pos = pygame.math.Vector2(position[0], position[1])
+        self.rect.topleft = self.pos * 32
 
     def move(self, delta):
        """handles tiles

@@ -65,8 +65,9 @@ class RogueLike():
             for tile in self.tile_layers[layer]:
                 tile.kill()
 
-        characteristics = Characteristics(616,616,350,66,0,36,1.6, [])
-        self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10,10), characteristics)
+        #characteristics = Characteristics(616,616,350,66,0,36,1.6, [])
+        #self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10,10), characteristics)
+        self.hero.posReset((10,10))
         self.map = Map()
 
         self.map.generate(self)
