@@ -33,7 +33,8 @@ class RogueLike():
         self.tile_layers = {
             "TILE_WALL": pygame.sprite.Group(),
             "TILE_FLOOR": pygame.sprite.Group(),
-            "TILE_HERO": pygame.sprite.Group()}
+            "TILE_HERO": pygame.sprite.Group(),
+            "TILE_DOOR": pygame.sprite.Group()}
 
     def spriteRender(self):
         """Reblit all sprites onto the main screen"""
@@ -49,6 +50,7 @@ class RogueLike():
                 self.tile_layers["TILE_WALL"].update()
                 self.tile_layers["TILE_FLOOR"].update()
                 self.tile_layers["TILE_HERO"].update()
+                self.tile_layers["TILE_DOOR"].update()
                 self.map.viewport_update(self.hero)
                 self.screen.blit(tile.tile, self.map.animator(tile))
 
@@ -75,20 +77,28 @@ class RogueLike():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
                         delta = (-1, 0)
-                        if not self.hero.collide(self.tile_layers["TILE_WALL"], self.tile_layers["TILE_FLOOR"], delta):
+                        if not self.hero.collide(self.tile_layers["TILE_WALL"], delta):
                             self.hero.move(delta) 
+                        if self.hero.doorCollide(self.tile_layers["TILE_DOOR"], delta):
+                            print("level done!")
                     if event.key == pygame.K_RIGHT:
                         delta = (1, 0)
-                        if not self.hero.collide(self.tile_layers["TILE_WALL"], self.tile_layers["TILE_FLOOR"], delta):
+                        if not self.hero.collide(self.tile_layers["TILE_WALL"], delta):
                             self.hero.move(delta)
+                        if self.hero.doorCollide(self.tile_layers["TILE_DOOR"], delta):
+                            print("level done!")
                     if event.key == pygame.K_UP:
                         delta = (0, -1)
-                        if not self.hero.collide(self.tile_layers["TILE_WALL"], self.tile_layers["TILE_FLOOR"], delta):
+                        if not self.hero.collide(self.tile_layers["TILE_WALL"], delta):
                             self.hero.move(delta)
+                        if self.hero.doorCollide(self.tile_layers["TILE_DOOR"], delta):
+                            print("level done!")
                     if event.key == pygame.K_DOWN:
                         delta = (0, 1)
-                        if not self.hero.collide(self.tile_layers["TILE_WALL"], self.tile_layers["TILE_FLOOR"], delta):
+                        if not self.hero.collide(self.tile_layers["TILE_WALL"], delta):
                             self.hero.move(delta)
+                        if self.hero.doorCollide(self.tile_layers["TILE_DOOR"], delta):
+                            print("level done!")
             self.spriteRender()
         pygame.quit()
 

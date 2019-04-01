@@ -11,6 +11,7 @@ import pygame
 WALL_TILE = [(0, 0)]
 FLOOR_TILE = [(1, 0)]
 PLAYER_TILE = [(2, 0)]
+DOOR_TILE = [(3, 0)]
 
 SPRITE_PATH = "sprites/sprites_simple.bmp"
 
@@ -122,6 +123,30 @@ class WallSprite(pygame.sprite.Sprite):
         self.rect.topleft = self.pos * 32
 
 
+class DoorSprite(pygame.sprite.Sprite):
+    """Class Representing a wall tile,
+    inherits pygame's sprite, extending it
+    with method for loading from the sprite file"""
+
+    def __init__(self, layer, sprite_sheet, position):
+        # based on the pygame docs,
+        # we have to also initialize
+        # the parent class
+        self.group = layer["TILE_DOOR"]
+        pygame.sprite.Sprite.__init__(self, self.group)
+
+        # load the images from the tileset
+        # uses list comprehension to grab
+        # locations from my const and fetches
+        # images for those locations
+        self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in DOOR_TILE]
+        self.tile = self.tiles[0]
+
+        self.rect = self.tile.get_rect()
+        self.pos = pygame.math.Vector2(position[0], position[1])
+        self.rect.topleft = self.pos * 32
+
+
 class HeroSprite(pygame.sprite.Sprite):
     """Class Representing the player,
     inherits pygame's sprite, extending it
@@ -148,7 +173,7 @@ class HeroSprite(pygame.sprite.Sprite):
        self.pos.x += delta[0]
        self.pos.y += delta[1]
 
-    def collide(self, layer, layer2, delta):
+    def collide(self, layer, delta):
         """check if character will collide with the given layer:
         layer: group of sprites
         delta: tuple with dx and dy, respectively"""
@@ -156,4 +181,14 @@ class HeroSprite(pygame.sprite.Sprite):
             if (tile.pos.x == self.pos.x + delta[0] and tile.pos.y == self.pos.y + delta[1]):
                 print("wall collision")
                 return tile
+        return False
+
+    def doorCollide(self, layer, delta):
+        """check if character will collide with the given layer:
+        layer: group of sprites
+        delta: tuple with dx and dy, respectively"""
+        for tile in layer:
+            if (tile.pos.x == self.pos.x + delta[0] and tile.pos.y == self.pos.y + delta[1]):
+                print("You're done!")
+                return True
         return False

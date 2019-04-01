@@ -1,5 +1,5 @@
 import pygame
-from sprite import SpriteHandler, WallSprite, FloorSprite, HeroSprite
+from sprite import SpriteHandler, WallSprite, FloorSprite, HeroSprite, DoorSprite
 import random
 
 # Map Generator Class, for randomly generating a map
@@ -36,6 +36,14 @@ class Map:
             for y in range(0,20):
                 if random.random() > 0.2:
                     FloorSprite(rogue.tile_layers, rogue.sprite_handler, (x, y))
+
+        # randomly place door
+        is_door_placed = False
+        for x in range(0, 20):
+            for y in range(0, 20):
+                if random.random() > 0.5 and not is_door_placed:
+                    is_door_placed = True
+                    DoorSprite(rogue.tile_layers, rogue.sprite_handler, (x, y))
 
         # place walls wherever there isn't a floor
         self.wall_placer(rogue)
