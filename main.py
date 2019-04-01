@@ -57,6 +57,18 @@ class RogueLike():
         # write changes to screen
         pygame.display.flip()
 
+    def generate_level(self):
+        """Delete all tiles in desired layer"""
+        for layer in self.tile_layers:
+            for tile in self.tile_layers[layer]:
+                tile.kill()
+
+        self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10,10))
+        self.map = Map()
+
+        self.map.generate(self)
+
+
     def gameloop(self):
         """Run the main game loop"""
 
@@ -81,24 +93,28 @@ class RogueLike():
                             self.hero.move(delta) 
                         if self.hero.doorCollide(self.tile_layers["TILE_DOOR"], delta):
                             print("level done!")
+                            self.generate_level()
                     if event.key == pygame.K_RIGHT:
                         delta = (1, 0)
                         if not self.hero.collide(self.tile_layers["TILE_WALL"], delta):
                             self.hero.move(delta)
                         if self.hero.doorCollide(self.tile_layers["TILE_DOOR"], delta):
                             print("level done!")
+                            self.generate_level()
                     if event.key == pygame.K_UP:
                         delta = (0, -1)
                         if not self.hero.collide(self.tile_layers["TILE_WALL"], delta):
                             self.hero.move(delta)
                         if self.hero.doorCollide(self.tile_layers["TILE_DOOR"], delta):
                             print("level done!")
+                            self.generate_level()
                     if event.key == pygame.K_DOWN:
                         delta = (0, 1)
                         if not self.hero.collide(self.tile_layers["TILE_WALL"], delta):
                             self.hero.move(delta)
                         if self.hero.doorCollide(self.tile_layers["TILE_DOOR"], delta):
                             print("level done!")
+                            self.generate_level()
             self.spriteRender()
         pygame.quit()
 

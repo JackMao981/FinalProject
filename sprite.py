@@ -11,7 +11,7 @@ import pygame
 WALL_TILE = [(0, 0)]
 FLOOR_TILE = [(1, 0)]
 PLAYER_TILE = [(2, 0)]
-DOOR_TILE = [(3, 0)]
+DOOR_TILE = [(6, 0)]
 
 SPRITE_PATH = "sprites/sprites_simple.bmp"
 
