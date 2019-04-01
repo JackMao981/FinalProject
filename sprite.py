@@ -128,10 +128,11 @@ class HeroSprite(pygame.sprite.Sprite):
     inherits pygame's sprite, extending it
     with the method for loading fromt e sprite file
     """
-    def __init__(self, layer, sprite_sheet, position):
+
+    def __init__(self, layer, sprite_sheet, position, characteristics):
         self.group = layer["TILE_HERO"]
         pygame.sprite.Sprite.__init__(self, self.group)
-
+        self.characteristics = characteristics
         self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in PLAYER_TILE]
         self.tile = self.tiles[0]
         self.rect = self.tile.get_rect()
@@ -158,6 +159,30 @@ class HeroSprite(pygame.sprite.Sprite):
                 return tile
         return False
 
+class ItemSprite(pygame.sprite.Sprite):
+    """Class Representing a floor tile,
+    inherits pygame's sprite, extending it
+    with method for loading from the sprite file"""
+
+    def __init__(self, layer, sprite_sheet, position):
+        # based on the pygame docs,
+        # we have to also initialize
+        # the parent class
+        self.group = layer["TILE_ITEM"]
+        pygame.sprite.Sprite.__init__(self, self.group)
+
+        # load the images from the tileset
+        # uses list comprehension to grab
+        # locations from my const and fetches
+        # images for those locations
+        self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in FLOOR_TILE]
+        self.tile = self.tiles[0]
+
+        self.rect = self.tile.get_rect()
+        self.pos = pygame.math.Vector2(position[0], position[1])
+        self.rect.topleft = self.pos * 32
+        print("made a new item tile")
+
 # class Character:
 #     def __init__(self, health, vel, pos):
 #         self.health = health
@@ -167,3 +192,59 @@ class HeroSprite(pygame.sprite.Sprite):
 
 #     def is_collision(self, char1, char2):
 #         pass
+class Characteristics:
+    def __init__(self, curr_health, max_health, mana, atk, true_damage, armor, spd):
+        self.curr_health = curr_health
+        self.max_health = max_health
+        self.mana = mana
+        self.atk = atk
+        self.armor = armor
+        self.spd = spd
+        self.true_damage = true_damage
+
+    def print_health(self):
+        print("health: " + str(self.curr_health) + "/" + str(self.max_health))
+
+    def is_dead(self):
+        if(self.health <= 0):
+            return True
+        return False
+
+    def has_enough_mana(self, mana_cost):
+        if(self.mana > mana_cost):
+            self.mana -= mana_cost
+            return True
+        return False
+
+    def damage_output(self):
+        return (agi * atk, true_damage)
+
+    def damage_taken(self, damage, true_damage):
+        if (armor <= 0):
+            (2 - (100/(100-armor))) * damage + true_damage
+        else:
+            (100/(100+armor)) * damage + true_damage
+
+    def add_item(self, item):
+        for key in item.modifiers:
+            if (key == "atk"):
+                self.atk += item.modifiers[key]
+            if (key == "health"):
+                self.health += item.modifiers[key]
+            if (key == "max_health"):
+                self.max_health += item.modifiers[key]
+                self.curr_health += item.modifiers[key]
+            if (key == "armor"):
+                self.armor += item.modifiers[key]
+            if (key == "mana"):
+                self.mana += item.modifiers[key]
+
+
+class Item:
+    def __init__(self, modifiers):
+        self.modifiers = modifiers
+
+class Doran_sheild(Item):
+    def __init__(self, modifiers):
+        Item.__init__(self, modifiers)
+        self.modifiers = {"max_health":80, "armor": 10}

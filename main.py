@@ -13,18 +13,18 @@ import math
 import random
 
 from map import Map
-from sprite import SpriteHandler, WallSprite, FloorSprite, HeroSprite
+from sprite import SpriteHandler, WallSprite, FloorSprite, HeroSprite, Characteristics
 
 # Game Class, for handling game loop eventually
 class RogueLike():
     def __init__(self):
         """Initialize the roguelike game instance. Handles
-        utility functions necessary for pygame and the 
+        utility functions necessary for pygame and the
         main game loop"""
         pygame.init()
         self.screen = pygame.display.set_mode((700, 700))
         self.clock = pygame.time.Clock()
-        
+
         # load the sprite image set
         self.sprite_handler = SpriteHandler()
         self.map = Map()
@@ -62,7 +62,8 @@ class RogueLike():
         self.map.generate(self)
 
         # create the hero!
-        self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10,10))
+        characteristics = Characteristics(616,616,350,66,0,36,1.6)
+        self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10,10), characteristics)
 
         # run the game loop until program is quit
         run = True
@@ -73,10 +74,11 @@ class RogueLike():
                 if event.type == pygame.QUIT:
                     run = False
                 if event.type == pygame.KEYDOWN:
+                    self.hero.characteristics.print_health()
                     if event.key == pygame.K_LEFT:
                         delta = (-1, 0)
                         if not self.hero.collide(self.tile_layers["TILE_WALL"], delta):
-                            self.hero.move(delta) 
+                            self.hero.move(delta)
                     if event.key == pygame.K_RIGHT:
                         delta = (1, 0)
                         if not self.hero.collide(self.tile_layers["TILE_WALL"], delta):
@@ -90,6 +92,9 @@ class RogueLike():
                         if not self.hero.collide(self.tile_layers["TILE_WALL"], delta):
                             self.hero.move(delta)
             self.spriteRender()
+
+            if(self.hero.characteristics.curr_health <= 0):
+                pygame.quit()
         pygame.quit()
 
 
