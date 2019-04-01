@@ -220,11 +220,13 @@ class HeroSprite(pygame.sprite.Sprite):
             self.attack(self.collide(rogue.tile_layers["TILE_ENEMY"], delta))
         if self.collide(rogue.tile_layers["TILE_ITEM"], delta):
             # handle damage chance / attach interaction
+            print("item get")
             self.characteristics.add_item(self.collide(rogue.tile_layers["TILE_ITEM"], delta).item)
+            self.collide(rogue.tile_layers["TILE_ITEM"], delta).kill()
 
     def attack(self, enemy):
         # handle the attack!!
-        pass
+        print("I'm attacking")
 
 class EnemySprite(pygame.sprite.Sprite):
     """Class Representing the player,
