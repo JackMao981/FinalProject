@@ -30,22 +30,14 @@ class Map:
 
     def generate(self, rogue):
         """Places map sprites"""
-        # for i in range(0, 20):
-        #     WallSprite(rogue.tile_layers, rogue.sprite_handler, (0,i))
-        # for i in range(0, 20):
-        #     WallSprite(rogue.tile_layers, rogue.sprite_handler, (i,0))
-        # for i in range(0, 20):
-        #     WallSprite(rogue.tile_layers, rogue.sprite_handler, (0,i))
-        # for i in range(0, 20):
-        #     WallSprite(rogue.tile_layers, rogue.sprite_handler, (0,i))
-        # for i in range(0, 20):
-        #     WallSprite(rogue.tile_layers, rogue.sprite_handler, (0,i))
 
+        # randomly place floors
         for x in range(0, 20):
             for y in range(0,20):
-                if random.random() > 0.3:
+                if random.random() > 0.2:
                     FloorSprite(rogue.tile_layers, rogue.sprite_handler, (x, y))
 
+        # place walls wherever there isn't a floor
         self.wall_placer(rogue)
 
     def wall_placer(self, rogue):
