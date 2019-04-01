@@ -96,32 +96,16 @@ class RogueLike():
                     self.hero.characteristics.print_health()
                     if event.key == pygame.K_LEFT:
                         delta = (-1, 0)
-                        if not self.hero.collide(self.tile_layers["TILE_WALL"], delta):
-                            self.hero.move(delta) 
-                        if self.hero.doorCollide(self.tile_layers["TILE_DOOR"], delta):
-                            print("level done!")
-                            self.generate_level()
+                        self.hero.collisionHandler(self, delta)
                     if event.key == pygame.K_RIGHT:
                         delta = (1, 0)
-                        if not self.hero.collide(self.tile_layers["TILE_WALL"], delta):
-                            self.hero.move(delta)
-                        if self.hero.doorCollide(self.tile_layers["TILE_DOOR"], delta):
-                            print("level done!")
-                            self.generate_level()
+                        self.hero.collisionHandler(self, delta)
                     if event.key == pygame.K_UP:
                         delta = (0, -1)
-                        if not self.hero.collide(self.tile_layers["TILE_WALL"], delta):
-                            self.hero.move(delta)
-                        if self.hero.doorCollide(self.tile_layers["TILE_DOOR"], delta):
-                            print("level done!")
-                            self.generate_level()
+                        self.hero.collisionHandler(self, delta)
                     if event.key == pygame.K_DOWN:
                         delta = (0, 1)
-                        if not self.hero.collide(self.tile_layers["TILE_WALL"], delta):
-                            self.hero.move(delta)
-                        if self.hero.doorCollide(self.tile_layers["TILE_DOOR"], delta):
-                            print("level done!")
-                            self.generate_level()
+                        self.hero.collisionHandler(self, delta)
             self.spriteRender()
 
             if(self.hero.characteristics.curr_health <= 0):

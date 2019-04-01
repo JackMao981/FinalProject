@@ -1,4 +1,5 @@
 import pygame
+import random
 
 # Define where objects are in our sprite file.
 # Each sprite is 4x4 pixels in size, and the
@@ -192,7 +193,7 @@ class HeroSprite(pygame.sprite.Sprite):
         delta: tuple with dx and dy, respectively"""
         for tile in layer:
             if (tile.pos.x == self.pos.x + delta[0] and tile.pos.y == self.pos.y + delta[1]):
-                print("wall collision")
+                print("wall or enemy collision")
                 return tile
         return False
 
@@ -205,6 +206,22 @@ class HeroSprite(pygame.sprite.Sprite):
                 print("You're done!")
                 return True
         return False
+
+    def collisionHandler(self, rogue, delta):
+        """Handles movement events for the player
+        delta: tuple with dx and dy, respectively"""
+        if not self.collide(rogue.tile_layers["TILE_WALL"], delta):
+            self.move(delta) 
+        if self.doorCollide(rogue.tile_layers["TILE_DOOR"], delta):
+            print("level done!")
+            rogue.generate_level()
+        if self.collide(rogue.tile_layers["TILE_ENEMY"], delta):
+            # handle damage chance / attach interaction
+            self.attack(self.collide(rogue.tile_layers["TILE_ENEMY"], delta))
+
+    def attack(self, enemy):
+        # handle the attack!!
+        print("arrrggh an attack!")
 
 class EnemySprite(pygame.sprite.Sprite):
     """Class Representing the player,
