@@ -13,6 +13,7 @@ FLOOR_TILE = [(1, 0)]
 PLAYER_TILE = [(2, 0)]
 DOOR_TILE = [(6, 0)]
 ITEM_TILE = [(3,0)]
+ENEMY_TILE = [(1,1)]
 SPRITE_PATH = "sprites/sprites_simple.bmp"
 
 
@@ -203,6 +204,54 @@ class HeroSprite(pygame.sprite.Sprite):
             if (tile.pos.x == self.pos.x + delta[0] and tile.pos.y == self.pos.y + delta[1]):
                 print("You're done!")
                 return True
+        return False
+
+class EnemySprite(pygame.sprite.Sprite):
+    """Class Representing the player,
+    inherits pygame's sprite, extending it
+    with the method for loading from the sprite file
+    """
+
+    def __init__(self, layer, sprite_sheet, position, characteristics):
+        """Create a new 'hero' character. 
+        position: a tuple with x and y values respectively"""
+        self.group = layer["TILE_ENEMY"]
+        pygame.sprite.Sprite.__init__(self, self.group)
+        self.characteristics = characteristics
+        self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in ENEMY_TILE]
+        self.tile = self.tiles[0]
+        self.rect = self.tile.get_rect()
+        self.pos = pygame.math.Vector2(position[0], position[1])
+        self.rect.topleft = self.pos * 32
+
+    def update(self):
+       """handles sprite rect location in terms of pixels"""
+       self.rect.x = self.pos.x * 32
+       self.rect.y = self.pos.y * 32
+
+    def posReset(self, position):
+        """reset the position of the player on level change
+        position: a tuple with x and y values respectively"""
+
+        pygame.sprite.Sprite.__init__(self, self.group)
+        self.rect = self.tile.get_rect()
+        self.pos = pygame.math.Vector2(position[0], position[1])
+        self.rect.topleft = self.pos * 32
+
+    def move(self, delta):
+       """handles tiles
+       delta: tuple with dx and dy, respectively"""
+       self.pos.x += delta[0]
+       self.pos.y += delta[1]
+
+    def collide(self, layer, delta):
+        """check if character will collide with the given layer:
+        layer: group of sprites
+        delta: tuple with dx and dy, respectively"""
+        for tile in layer:
+            if (tile.pos.x == self.pos.x + delta[0] and tile.pos.y == self.pos.y + delta[1]):
+                print("wall collision")
+                return tile
         return False
 
 class ItemSprite(pygame.sprite.Sprite):

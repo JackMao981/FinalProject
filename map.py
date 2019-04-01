@@ -1,5 +1,5 @@
 import pygame
-from sprite import SpriteHandler, WallSprite, FloorSprite, HeroSprite, DoorSprite, ItemSprite
+from sprite import *
 import random
 
 # Map Generator Class, for randomly generating a map
@@ -48,7 +48,12 @@ class Map:
         # place walls wherever there isn't a floor
         self.wall_placer(rogue)
 
+        # place a test item
         ItemSprite(rogue.tile_layers, rogue.sprite_handler, (5, 5))
+        
+        # place an enemy
+        characteristics = Characteristics(616,616,350,66,0,36,1.6, [])
+        EnemySprite(rogue.tile_layers, rogue.sprite_handler, (6, 6), characteristics)
 
     def wall_placer(self, rogue):
         """place walls wherever there isn't floor"""

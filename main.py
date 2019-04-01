@@ -35,7 +35,8 @@ class RogueLike():
             "TILE_FLOOR": pygame.sprite.Group(),
             "TILE_HERO": pygame.sprite.Group(),
             "TILE_DOOR": pygame.sprite.Group(),
-            "TILE_ITEM": pygame.sprite.Group()}
+            "TILE_ITEM": pygame.sprite.Group(),
+            "TILE_ENEMY": pygame.sprite.Group()}
 
     def spriteRender(self):
         """Reblit all sprites onto the main screen"""
@@ -53,6 +54,7 @@ class RogueLike():
                 self.tile_layers["TILE_HERO"].update()
                 self.tile_layers["TILE_DOOR"].update()
                 self.tile_layers["TILE_ITEM"].update()
+                self.tile_layers["TILE_ENEMY"].update()
                 self.map.viewport_update(self.hero)
                 self.screen.blit(tile.tile, self.map.animator(tile))
 
@@ -71,7 +73,6 @@ class RogueLike():
         self.map = Map()
 
         self.map.generate(self)
-
 
     def gameloop(self):
         """Run the main game loop"""
