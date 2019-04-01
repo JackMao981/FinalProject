@@ -81,7 +81,7 @@ class RogueLike():
         self.map.generate(self)
 
         # create the hero!
-        characteristics = Characteristics(616,616,350,66,0,36,1.6, [])
+        characteristics = Characteristics(616,616,350, 350, 66,0,36,1.6, [])
         self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10,10), characteristics)
 
         # run the game loop until program is quit

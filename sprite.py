@@ -211,7 +211,7 @@ class HeroSprite(pygame.sprite.Sprite):
         """Handles movement events for the player
         delta: tuple with dx and dy, respectively"""
         if not self.collide(rogue.tile_layers["TILE_WALL"], delta):
-            self.move(delta) 
+            self.move(delta)
         if self.doorCollide(rogue.tile_layers["TILE_DOOR"], delta):
             print("level done!")
             rogue.generate_level()
@@ -225,7 +225,10 @@ class HeroSprite(pygame.sprite.Sprite):
             self.collide(rogue.tile_layers["TILE_ITEM"], delta).kill()
 
     def attack(self, enemy):
-        # handle the attack!!
+        hero_damage_taken = hero_damage_taken(enemy.damage_output)
+        enemy_damage_taken = enemy_damage_taken(self.damage_output)
+        if (enemy.characteristics.curr_health <= 0):
+            enemy.kill()
         print("I'm attacking")
 
 class EnemySprite(pygame.sprite.Sprite):
@@ -301,8 +304,10 @@ class ItemSprite(pygame.sprite.Sprite):
         self.rect.topleft = self.pos * 32
         print("made a new item tile")
 
+# Defining the stats of the hero and enemy
 class Characteristics:
-    def __init__(self, curr_health, max_health, mana, atk, true_damage, armor, spd, items):
+
+    def __init__(self, curr_health, max_health, mana, max_mana, atk, true_damage, armor, spd, items):
         self.curr_health = curr_health
         self.max_health = max_health
         self.mana = mana
@@ -312,14 +317,17 @@ class Characteristics:
         self.true_damage = true_damage
         self.items = items
 
+
+    # a function used to check your current health
     def print_health(self):
         print("health: " + str(self.curr_health) + "/" + str(self.max_health))
-
+    # checks if you are dead
     def is_dead(self):
-        if(self.health <= 0):
+        if(self.curr_health <= 0):
             return True
         return False
 
+    # checks if you have enough mana to cast a spell
     def has_enough_mana(self, mana_cost):
         if(self.mana > mana_cost):
             self.mana -= mana_cost
@@ -327,13 +335,13 @@ class Characteristics:
         return False
 
     def damage_output(self):
-        return (agi * atk, true_damage)
+        return self.agi * self.atk, self.true_damage
 
     def damage_taken(self, damage, true_damage):
         if (armor <= 0):
-            (2 - (100/(100-armor))) * damage + true_damage
+            (2 - (100/(100-self.armor))) * damage + true_damage
         else:
-            (100/(100+armor)) * damage + true_damage
+            (100/(100+self.armor)) * damage + true_damage
 
     def add_item(self, item):
         for key in item.modifiers:
