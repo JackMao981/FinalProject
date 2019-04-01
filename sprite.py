@@ -11,6 +11,7 @@ import pygame
 WALL_TILE = [(0, 0)]
 FLOOR_TILE = [(1, 0)]
 PLAYER_TILE = [(2, 0)]
+ITEM_TILE = [(3,0)]
 
 SPRITE_PATH = "sprites/sprites_simple.bmp"
 
@@ -175,9 +176,10 @@ class ItemSprite(pygame.sprite.Sprite):
         # uses list comprehension to grab
         # locations from my const and fetches
         # images for those locations
-        self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in FLOOR_TILE]
+        self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in ITEM_TILE]
         self.tile = self.tiles[0]
 
+        self.item = Doran_sheild()
         self.rect = self.tile.get_rect()
         self.pos = pygame.math.Vector2(position[0], position[1])
         self.rect.topleft = self.pos * 32
@@ -193,7 +195,7 @@ class ItemSprite(pygame.sprite.Sprite):
 #     def is_collision(self, char1, char2):
 #         pass
 class Characteristics:
-    def __init__(self, curr_health, max_health, mana, atk, true_damage, armor, spd):
+    def __init__(self, curr_health, max_health, mana, atk, true_damage, armor, spd, items):
         self.curr_health = curr_health
         self.max_health = max_health
         self.mana = mana
@@ -201,6 +203,7 @@ class Characteristics:
         self.armor = armor
         self.spd = spd
         self.true_damage = true_damage
+        self.items = items
 
     def print_health(self):
         print("health: " + str(self.curr_health) + "/" + str(self.max_health))
@@ -238,13 +241,14 @@ class Characteristics:
                 self.armor += item.modifiers[key]
             if (key == "mana"):
                 self.mana += item.modifiers[key]
-
+        self.items.append(item.name)
 
 class Item:
-    def __init__(self, modifiers):
+    def __init__(self, modifiers, name):
         self.modifiers = modifiers
 
 class Doran_sheild(Item):
-    def __init__(self, modifiers):
-        Item.__init__(self, modifiers)
-        self.modifiers = {"max_health":80, "armor": 10}
+    def __init__(self, modifiers = {"max_health":80, "armor": 10}, name = "Doran's Shield"):
+        Item.__init__(self, modifiers, name)
+        self.modifiers = modifiers
+        self.name = name

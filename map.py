@@ -1,5 +1,5 @@
 import pygame
-from sprite import SpriteHandler, WallSprite, FloorSprite, HeroSprite
+from sprite import SpriteHandler, WallSprite, FloorSprite, HeroSprite, ItemSprite
 import random
 
 # Map Generator Class, for randomly generating a map
@@ -12,16 +12,16 @@ class Map:
         self.height = 700
         self.xset = int((700 - 32) / 2)
         self.yset = int((700 - 32) / 2)
-    
+
     def animator(self, tile):
         """Moves tiles according to the top left of the view port
-        which has the offset applied. By changing the viewport 
-        when the hero location changes, we can take that and 
+        which has the offset applied. By changing the viewport
+        when the hero location changes, we can take that and
         reposition all the other tiles relative to the hero."""
         return tile.rect.move(self.viewport.topleft)
 
     def viewport_update(self, tile):
-        """Update the position of the viewport. Note that 
+        """Update the position of the viewport. Note that
         reassigning any of the location attributes of pygame
         rectangles adjusts all the other attributes and does
         not resize the rectangle."""
@@ -49,6 +49,7 @@ class Map:
         FloorSprite(rogue.tile_layers, rogue.sprite_handler, (2, 3))
 
         FloorSprite(rogue.tile_layers, rogue.sprite_handler, (4, 1))
+        ItemSprite(rogue.tile_layers, rogue.sprite_handler, (5, 5))
 
         # # place walls wherever there isn't floor
         # for x in range(0,30):

@@ -33,6 +33,7 @@ class RogueLike():
         self.tile_layers = {
             "TILE_WALL": pygame.sprite.Group(),
             "TILE_FLOOR": pygame.sprite.Group(),
+            "TILE_ITEM": pygame.sprite.Group(),
             "TILE_HERO": pygame.sprite.Group()}
 
     def spriteRender(self):
@@ -49,6 +50,7 @@ class RogueLike():
                 self.tile_layers["TILE_WALL"].update()
                 self.tile_layers["TILE_FLOOR"].update()
                 self.tile_layers["TILE_HERO"].update()
+                self.tile_layers["TILE_ITEM"].update()
                 self.map.viewport_update(self.hero)
                 self.screen.blit(tile.tile, self.map.animator(tile))
 
@@ -62,7 +64,7 @@ class RogueLike():
         self.map.generate(self)
 
         # create the hero!
-        characteristics = Characteristics(616,616,350,66,0,36,1.6)
+        characteristics = Characteristics(616,616,350,66,0,36,1.6, [])
         self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10,10), characteristics)
 
         # run the game loop until program is quit
