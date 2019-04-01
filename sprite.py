@@ -96,7 +96,6 @@ class FloorSprite(pygame.sprite.Sprite):
         self.rect = self.tile.get_rect()
         self.pos = pygame.math.Vector2(position[0], position[1])
         self.rect.topleft = self.pos * 32
-        print("made a new floor tile")
 
 
 class WallSprite(pygame.sprite.Sprite):
@@ -149,11 +148,12 @@ class HeroSprite(pygame.sprite.Sprite):
        self.pos.x += delta[0]
        self.pos.y += delta[1]
 
-    def collide(self, layer, delta):
+    def collide(self, layer, layer2, delta):
         """check if character will collide with the given layer:
         layer: group of sprites
         delta: tuple with dx and dy, respectively"""
         for tile in layer:
-            if tile.pos.x == self.pos.x + delta[0] and tile.pos.y == self.pos.y + delta[1]:
+            if (tile.pos.x == self.pos.x + delta[0] and tile.pos.y == self.pos.y + delta[1]):
+                print("wall collision")
                 return tile
         return False

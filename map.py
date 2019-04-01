@@ -42,12 +42,11 @@ class Map:
 
     def wall_placer(self, rogue):
         """place walls wherever there isn't floor"""
-        for x in range(-5,25):
-            for y in range(-5, 25):
+        for x in range(-1,21):
+            for y in range(-1, 21):
                 overlap = False
                 for tile in rogue.tile_layers["TILE_FLOOR"]:
                     if tile.pos.x == x and tile.pos.y == y:
                         overlap = True
-
                 if not overlap:
                     WallSprite(rogue.tile_layers, rogue.sprite_handler, (x, y))
