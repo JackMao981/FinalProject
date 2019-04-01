@@ -156,7 +156,7 @@ class HeroSprite(pygame.sprite.Sprite):
     """
 
     def __init__(self, layer, sprite_sheet, position, characteristics):
-        """Create a new 'hero' character. 
+        """Create a new 'hero' character.
         position: a tuple with x and y values respectively"""
         self.group = layer["TILE_HERO"]
         pygame.sprite.Sprite.__init__(self, self.group)
@@ -218,10 +218,13 @@ class HeroSprite(pygame.sprite.Sprite):
         if self.collide(rogue.tile_layers["TILE_ENEMY"], delta):
             # handle damage chance / attach interaction
             self.attack(self.collide(rogue.tile_layers["TILE_ENEMY"], delta))
+        if self.collide(rogue.tile_layers["TILE_ITEM"], delta):
+            # handle damage chance / attach interaction
+            self.characteristics.add_item(self.collide(rogue.tile_layers["TILE_ITEM"], delta).item)
 
     def attack(self, enemy):
         # handle the attack!!
-        print("arrrggh an attack!")
+        pass
 
 class EnemySprite(pygame.sprite.Sprite):
     """Class Representing the player,
@@ -230,7 +233,7 @@ class EnemySprite(pygame.sprite.Sprite):
     """
 
     def __init__(self, layer, sprite_sheet, position, characteristics):
-        """Create a new 'hero' character. 
+        """Create a new 'hero' character.
         position: a tuple with x and y values respectively"""
         self.group = layer["TILE_ENEMY"]
         pygame.sprite.Sprite.__init__(self, self.group)
