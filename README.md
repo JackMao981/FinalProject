@@ -1,13 +1,16 @@
-# Interactive Visualization Project
+# Interactive Visualization Project - Dithered
 ### By Dieter Brehm and Jack Mao
 
 ## Overview
-A project that uses Python to create an interactive visualization in the form of
-a game or data visualization.
+A project that uses Python to create an interactive visualization in the form of a roguelike rpg videogame.
 
 ## Setup
 Uses the following python packages:  
-* Pygame - Install using their installation instructions 
+* Pygame - Install using their installation instructions, but typically
+`pip install pygame`
+
+## Usage
+run the game with `python3 main.py`
 
 ## Developing and Contributing
 This project is developed using a pseudo-flow git model. Ideally, a new branch is
