@@ -225,6 +225,9 @@ class HeroSprite(pygame.sprite.Sprite):
             self.collide(rogue.tile_layers["TILE_ITEM"], delta).kill()
 
     def attack(self, enemy):
+        """
+        Handles the subtraction of hero's and enemy's current hp
+        """
         hero_damage_taken = self.characteristics.damage_taken(enemy.characteristics.damage_output())
         enemy_damage_taken = self.characteristics.damage_taken(self.characteristics.damage_output())
         self.characteristics.curr_health -= hero_damage_taken
@@ -310,6 +313,16 @@ class ItemSprite(pygame.sprite.Sprite):
 class Characteristics:
 
     def __init__(self, curr_health, max_health, mana, max_mana, atk, true_damage, armor, spd, items):
+        """creates a Characteristics object
+        curr_health: number, stores current health
+        max_health: number, stores the maximum health
+        mana: number, stores the current mana
+        max_mana: number, stores the maximum mana
+        atk: number, stores the attack stat
+        true_damage: number, stores the true damage stat
+        armor: number, stores the true damage stats
+        spd: number, stores the number of attacks per move stat
+        items: list of strings, stores the string of the item inside a list"""
         self.curr_health = curr_health
         self.max_health = max_health
         self.mana = mana
@@ -322,25 +335,35 @@ class Characteristics:
 
     # a function used to check your current health
     def print_health(self):
+        """prints health on the terminal"""
         print("health: " + str(self.curr_health) + "/" + str(self.max_health))
     # checks if you are dead
     def is_dead(self):
+        """returns if the character is dead"""
         if(self.curr_health <= 0):
             return True
         return False
 
     # checks if you have enough mana to cast a spell
     def has_enough_mana(self, mana_cost):
+        """
+        checks if the character has enough mana left
+        mana_cost: number, the amount of mana required to do something
+        """
         if(self.mana > mana_cost):
             self.mana -= mana_cost
             return True
         return False
 
     def damage_output(self):
+        """
+        returns the amount of damage dealt to the enemy before armor reduction
+        """
         return self.spd * self.atk, self.true_damage
 
     def damage_taken(self, input_damage):
         """
+        returns the damage that the character takes
         input_damage: tuple with damage and true damage, respectively
         """
         damage = input_damage[0]
@@ -351,6 +374,10 @@ class Characteristics:
             return (100/(100+self.armor)) * damage + true_damage
 
     def add_item(self, item):
+        """
+        adds the string of the item to the items list
+        item: Item, the object that modifies your stats
+        """
         for key in item.modifiers:
             if (key == "atk"):
                 self.atk += item.modifiers[key]
@@ -367,10 +394,21 @@ class Characteristics:
 
 class Item:
     def __init__(self, modifiers, name):
+        """
+        creates an Item object
+        modifiers: dictionary, stores the attributes of the item
+        name: string, stores the name of the item
+        """
         self.modifiers = modifiers
-
+        self.name = name
 class Doran_sheild(Item):
     def __init__(self, modifiers = {"max_health":80, "armor": 10}, name = "Doran's Shield"):
+        """
+        creates Doran_sheild, an item that modifies max_health and armor
+        Doran sheild be initialized by its default values only
+        modifiers: dictionary, stores the attributes of the item
+        name: string, stores the name of the item
+        """
         Item.__init__(self, modifiers, name)
         self.modifiers = modifiers
         self.name = name
