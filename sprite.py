@@ -56,7 +56,9 @@ class SpriteHandler:
     def imageHandler(self, position, sprite_size):
         """returns a pygame surface containing the
         tile at the given x,y position in terms
-        of sprite size"""
+        of sprite size
+        position: tuple with the position coordinates, order is x,y
+        sprite_size: size of sprite sheet in pixels"""
 
         # new surface sized to the tile size
         image = pygame.Surface((self.tile_width, self.tile_height))
@@ -73,7 +75,8 @@ class SpriteHandler:
     def get_sprite(self, pos):
         """We reshaped the tileset into a list, but we
         can still fetch data at an x,y position because
-        we know how we encoded the data"""
+        we know how we encoded the data
+        pos: position tuple ordered x, y"""
         return self.sprites[pos[1] * self.tileset_width + pos[0]]
 
 
@@ -83,6 +86,10 @@ class FloorSprite(pygame.sprite.Sprite):
     with method for loading from the sprite file"""
 
     def __init__(self, layer, sprite_sheet, position):
+        """Create new floor sprite instance
+        layer: the layer dictionary
+        sprite_sheet: the sprite handler
+        position: the desired position of the sprite"""
         # based on the pygame docs,
         # we have to also initialize
         # the parent class
@@ -107,6 +114,10 @@ class WallSprite(pygame.sprite.Sprite):
     with method for loading from the sprite file"""
 
     def __init__(self, layer, sprite_sheet, position):
+        """Create new wall sprite instance
+        layer: the layer dictionary
+        sprite_sheet: the sprite handler
+        position: the desired position of the sprite"""
         # based on the pygame docs,
         # we have to also initialize
         # the parent class
@@ -131,6 +142,11 @@ class DoorSprite(pygame.sprite.Sprite):
     with method for loading from the sprite file"""
 
     def __init__(self, layer, sprite_sheet, position):
+        """Create new door sprite instance
+        layer: the layer dictionary
+        sprite_sheet: the sprite handler
+        position: the desired position of the sprite"""
+
         # based on the pygame docs,
         # we have to also initialize
         # the parent class
@@ -156,8 +172,11 @@ class HeroSprite(pygame.sprite.Sprite):
     """
 
     def __init__(self, layer, sprite_sheet, position, characteristics):
-        """Create a new 'hero' character.
-        position: a tuple with x and y values respectively"""
+        """Create new hero sprite instance
+        layer: the layer dictionary
+        sprite_sheet: the sprite handler
+        position: the desired position of the sprite
+        characteristics: characteristics instance"""
         self.group = layer["TILE_HERO"]
         pygame.sprite.Sprite.__init__(self, self.group)
         self.characteristics = characteristics
@@ -209,6 +228,7 @@ class HeroSprite(pygame.sprite.Sprite):
 
     def collisionHandler(self, rogue, delta):
         """Handles movement events for the player
+        rogue: main roguelike game instance
         delta: tuple with dx and dy, respectively"""
         if not self.collide(rogue.tile_layers["TILE_WALL"], delta):
             self.move(delta)
@@ -227,6 +247,7 @@ class HeroSprite(pygame.sprite.Sprite):
     def attack(self, enemy):
         """
         Handles the subtraction of hero's and enemy's current hp
+        enemy: a tile instance of the enemy
         """
         hero_damage_taken = self.characteristics.damage_taken(enemy.characteristics.damage_output())
         enemy_damage_taken = self.characteristics.damage_taken(self.characteristics.damage_output())
@@ -243,8 +264,12 @@ class EnemySprite(pygame.sprite.Sprite):
     """
 
     def __init__(self, layer, sprite_sheet, position, characteristics):
-        """Create a new 'hero' character.
-        position: a tuple with x and y values respectively"""
+        """Create new enemy sprite instance
+        layer: the layer dictionary
+        sprite_sheet: the sprite handler
+        position: the desired position of the sprite
+        characteristics: characteristics instance"""
+        
         self.group = layer["TILE_ENEMY"]
         pygame.sprite.Sprite.__init__(self, self.group)
         self.characteristics = characteristics

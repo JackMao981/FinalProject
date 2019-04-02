@@ -72,6 +72,7 @@ class RogueLike():
         self.hero.posReset((10,10))
         self.map = Map()
 
+        # place sprites/tiles
         self.map.generate(self)
 
     def gameloop(self):
@@ -87,13 +88,19 @@ class RogueLike():
         # run the game loop until program is quit
         run = True
         while run:
-            # fetch all events
+            # fetch all events such as keypressed
             events = pygame.event.get()
             for event in events:
                 if event.type == pygame.QUIT:
                     run = False
                 if event.type == pygame.KEYDOWN:
+                    # print the health on every turn
                     self.hero.characteristics.print_health()
+                    
+                    # collision handler changes reaction based on
+                    # touched tile. Delta change according to
+                    # the direction pressed and is the desired
+                    # movement in units of tiles
                     if event.key == pygame.K_LEFT:
                         delta = (-1, 0)
                         self.hero.collisionHandler(self, delta)
@@ -108,13 +115,14 @@ class RogueLike():
                         self.hero.collisionHandler(self, delta)
             self.spriteRender()
 
+            # quit the game when the hero's health is 0
             if(self.hero.characteristics.curr_health <= 0):
                 print("You died.")
                 pygame.quit()
-                
         pygame.quit()
 
 
 if __name__ == "__main__":
+    # create the main object and run the loop function
     rogue = RogueLike()
     rogue.gameloop()
