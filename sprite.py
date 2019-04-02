@@ -225,8 +225,10 @@ class HeroSprite(pygame.sprite.Sprite):
             self.collide(rogue.tile_layers["TILE_ITEM"], delta).kill()
 
     def attack(self, enemy):
-        hero_damage_taken = hero_damage_taken(enemy.damage_output)
-        enemy_damage_taken = enemy_damage_taken(self.damage_output)
+        hero_damage_taken = self.characteristics.damage_taken(enemy.characteristics.damage_output())
+        enemy_damage_taken = self.characteristics.damage_taken(self.characteristics.damage_output())
+        self.characteristics.curr_health -= hero_damage_taken
+        enemy.characteristics.curr_health -= enemy_damage_taken
         if (enemy.characteristics.curr_health <= 0):
             enemy.kill()
         print("I'm attacking")
@@ -335,13 +337,18 @@ class Characteristics:
         return False
 
     def damage_output(self):
-        return self.agi * self.atk, self.true_damage
+        return self.spd * self.atk, self.true_damage
 
-    def damage_taken(self, damage, true_damage):
-        if (armor <= 0):
-            (2 - (100/(100-self.armor))) * damage + true_damage
+    def damage_taken(self, input_damage):
+        """
+        input_damage: tuple with damage and true damage, respectively
+        """
+        damage = input_damage[0]
+        true_damage = input_damage[1]
+        if (self.armor <= 0):
+            return (2 - (100/(100-self.armor))) * damage + true_damage
         else:
-            (100/(100+self.armor)) * damage + true_damage
+            return (100/(100+self.armor)) * damage + true_damage
 
     def add_item(self, item):
         for key in item.modifiers:

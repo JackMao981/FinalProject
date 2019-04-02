@@ -50,9 +50,9 @@ class Map:
 
         # place a test item
         ItemSprite(rogue.tile_layers, rogue.sprite_handler, (5, 5))
-        
+
         # place an enemy
-        characteristics = Characteristics(616,616,350,66,0,36,1.6, [])
+        characteristics = Characteristics(616,616,350,350, 66,0,36,1.6, [])
         EnemySprite(rogue.tile_layers, rogue.sprite_handler, (6, 6), characteristics)
 
     def wall_placer(self, rogue):
