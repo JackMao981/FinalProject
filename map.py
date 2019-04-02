@@ -55,7 +55,7 @@ class Map:
         for x in range(0, 20):
             for y in range(0, 20):
                 if random.random() < 0.02:
-                    characteristics = Characteristics(616,616,350,66,0,36,1.6, [])
+                    characteristics = Characteristics(616,616,350,350, 66,0,36,1.6, [])
                     EnemySprite(rogue.tile_layers, rogue.sprite_handler, (x, y), characteristics)
 
         # place walls wherever there isn't a floor
