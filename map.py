@@ -45,15 +45,21 @@ class Map:
                     is_door_placed = True
                     DoorSprite(rogue.tile_layers, rogue.sprite_handler, (x, y))
 
+        # randomly place items
+        for x in range(0, 20):
+            for y in range(0, 20):
+                if random.random() < 0.09:
+                    ItemSprite(rogue.tile_layers, rogue.sprite_handler, (x, y))
+        
+        # randomly place enemies
+        for x in range(0, 20):
+            for y in range(0, 20):
+                if random.random() < 0.02:
+                    characteristics = Characteristics(616,616,350,66,0,36,1.6, [])
+                    EnemySprite(rogue.tile_layers, rogue.sprite_handler, (x, y), characteristics)
+
         # place walls wherever there isn't a floor
         self.wall_placer(rogue)
-
-        # place a test item
-        ItemSprite(rogue.tile_layers, rogue.sprite_handler, (5, 5))
-        
-        # place an enemy
-        characteristics = Characteristics(616,616,350,66,0,36,1.6, [])
-        EnemySprite(rogue.tile_layers, rogue.sprite_handler, (6, 6), characteristics)
 
     def wall_placer(self, rogue):
         """place walls wherever there isn't floor"""
