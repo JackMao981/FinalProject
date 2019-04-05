@@ -1,5 +1,6 @@
 import pygame
-from sprite import *
+import bigger_sprite as sprite
+from bigger_sprite import *
 import random
 
 # Map Generator Class, for randomly generating a map
