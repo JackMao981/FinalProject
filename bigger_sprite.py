@@ -12,9 +12,9 @@ import random
 WALL_TILE = [(0, 0)]
 FLOOR_TILE = [(1, 0)]
 PLAYER_TILE = [(2, 0)]
-DOOR_TILE = [(6, 0)]
-ITEM_TILE = [(3,0)]
-ENEMY_TILE = [(1,1)]
+DOOR_TILE = [(3, 0)]
+ITEM_TILE = [(4,0)]
+ENEMY_TILE = [(0,1)]
 SPRITE_PATH = "sprites/mousesheet.bmp"
 
 
