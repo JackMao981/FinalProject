@@ -96,8 +96,8 @@ class RogueLike():
                     run = False
                 if event.type == pygame.KEYDOWN:
                     # print the health on every turn
-                    self.hero.characteristics.print_health()
-                    
+                    #self.hero.characteristics.print_health()
+
                     # collision handler changes reaction based on
                     # touched tile. Delta change according to
                     # the direction pressed and is the desired

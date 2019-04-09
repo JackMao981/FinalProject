@@ -28,7 +28,7 @@ class SpriteHandler:
         self.tilemap_width, self.tilemap_height = self.tilemap.get_size() # 1024 x 1024
 
         # set per-tile size
-        self.tile_width = 16	
+        self.tile_width = 16
         self.tile_height = 16
 
         # make a coordinate system in terms of tile size
@@ -238,9 +238,11 @@ class HeroSprite(pygame.sprite.Sprite):
         if self.collide(rogue.tile_layers["TILE_ENEMY"], delta):
             # handle damage chance / attach interaction
             self.attack(self.collide(rogue.tile_layers["TILE_ENEMY"], delta))
+            self.characteristics.print_health()
         if self.collide(rogue.tile_layers["TILE_ITEM"], delta):
             # handle damage chance / attach interaction
             print("item get")
+            self.characteristics.print_health()
             self.characteristics.add_item(self.collide(rogue.tile_layers["TILE_ITEM"], delta).item)
             self.collide(rogue.tile_layers["TILE_ITEM"], delta).kill()
 
@@ -269,7 +271,7 @@ class EnemySprite(pygame.sprite.Sprite):
         sprite_sheet: the sprite handler
         position: the desired position of the sprite
         characteristics: characteristics instance"""
-        
+
         self.group = layer["TILE_ENEMY"]
         pygame.sprite.Sprite.__init__(self, self.group)
         self.characteristics = characteristics
