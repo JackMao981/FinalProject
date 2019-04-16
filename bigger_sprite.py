@@ -206,6 +206,7 @@ class HeroSprite(pygame.sprite.Sprite):
        self.pos.x += delta[0]
        self.pos.y += delta[1]
 
+
     def collide(self, layer, delta):
         """check if character will collide with the given layer:
         layer: group of sprites
@@ -236,11 +237,9 @@ class HeroSprite(pygame.sprite.Sprite):
         if self.collide(rogue.tile_layers["TILE_ENEMY"], delta):
             # handle damage chance / attach interaction
             self.attack(self.collide(rogue.tile_layers["TILE_ENEMY"], delta))
-            self.characteristics.print_health()
         if self.collide(rogue.tile_layers["TILE_ITEM"], delta):
             # handle damage chance / attach interaction
             print("item get")
-            self.characteristics.print_health()
             self.characteristics.add_item(self.collide(rogue.tile_layers["TILE_ITEM"], delta).item)
             self.collide(rogue.tile_layers["TILE_ITEM"], delta).kill()
         if not self.collide(rogue.tile_layers["TILE_WALL"], delta):
