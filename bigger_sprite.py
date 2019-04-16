@@ -230,8 +230,6 @@ class HeroSprite(pygame.sprite.Sprite):
         """Handles movement events for the player
         rogue: main roguelike game instance
         delta: tuple with dx and dy, respectively"""
-        if not self.collide(rogue.tile_layers["TILE_WALL"], delta):
-            self.move(delta)
         if self.doorCollide(rogue.tile_layers["TILE_DOOR"], delta):
             print("level done!")
             rogue.generate_level()
@@ -245,6 +243,8 @@ class HeroSprite(pygame.sprite.Sprite):
             self.characteristics.print_health()
             self.characteristics.add_item(self.collide(rogue.tile_layers["TILE_ITEM"], delta).item)
             self.collide(rogue.tile_layers["TILE_ITEM"], delta).kill()
+        if not self.collide(rogue.tile_layers["TILE_WALL"], delta):
+            self.move(delta)
 
     def attack(self, enemy):
         """
@@ -301,15 +301,15 @@ class EnemySprite(pygame.sprite.Sprite):
        self.pos.x += delta[0]
        self.pos.y += delta[1]
 
-    def collide(self, layer, delta):
-        """check if character will collide with the given layer:
-        layer: group of sprites
-        delta: tuple with dx and dy, respectively"""
-        for tile in layer:
-            if (tile.pos.x == self.pos.x + delta[0] and tile.pos.y == self.pos.y + delta[1]):
-                print("wall collision")
-                return tile
-        return False
+#    def collide(self, layer, delta):
+#        """check if character will collide with the given layer:
+#        layer: group of sprites
+#        delta: tuple with dx and dy, respectively"""
+#        for tile in layer:
+#            if (tile.pos.x == self.pos.x + delta[0] and tile.pos.y == self.pos.y + delta[1]):
+#                print("wall collision")
+#                return tile
+#        return False
 
 class ItemSprite(pygame.sprite.Sprite):
     """Class Representing a floor tile,
