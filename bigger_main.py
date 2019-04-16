@@ -140,6 +140,7 @@ class RogueLike():
             # quit the game when the hero's health is 0
             if(self.hero.characteristics.curr_health <= 0):
                 print("You died.")
+                pygame.quit()
                 run = False
         pygame.quit()
 

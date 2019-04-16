@@ -329,7 +329,7 @@ class ItemSprite(pygame.sprite.Sprite):
         self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in ITEM_TILE]
         self.tile = self.tiles[0]
 
-        self.item = Doran_sheild()
+        self.item = Potion()
         self.rect = self.tile.get_rect()
         self.pos = pygame.math.Vector2(position[0], position[1])
         self.rect.topleft = self.pos * 256
@@ -408,7 +408,9 @@ class Characteristics:
             if (key == "atk"):
                 self.atk += item.modifiers[key]
             if (key == "health"):
-                self.health += item.modifiers[key]
+                self.curr_health += item.modifiers[key]
+                if(self.curr_health > self.max_health):
+                    self.curr_health = self.max_health
             if (key == "max_health"):
                 self.max_health += item.modifiers[key]
                 self.curr_health += item.modifiers[key]
@@ -427,8 +429,8 @@ class Item:
         """
         self.modifiers = modifiers
         self.name = name
-class Doran_sheild(Item):
-    def __init__(self, modifiers = {"max_health":80, "armor": 10}, name = "Doran's Shield"):
+class Potion(Item):
+    def __init__(self, modifiers = {"health":80, "armor": 10}, name = "Doran's Shield"):
         """
         creates Doran_sheild, an item that modifies max_health and armor
         Doran sheild be initialized by its default values only
