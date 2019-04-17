@@ -58,9 +58,23 @@ class RogueLike():
                 self.tile_layers["TILE_ENEMY"].update()
                 self.map.viewport_update(self.hero)
                 self.screen.blit(tile.tile, self.map.animator(tile))
+                self.display_health()
 
         # write changes to screen
         pygame.display.flip()
+
+
+    def display_health(self):
+        curr_health = self.hero.characteristics.curr_health
+        max_health = self.hero.characteristics.max_health
+        x_location = 10
+        y_location = 10
+        height = 50
+        total_bar = pygame.Rect(x_location, y_location,height, max_health+10)
+        pygame.draw.rect(self.screen,(255,255,255),total_bar)
+        curr_bar = pygame.Rect(x_location+5,y_location+5, height-10, curr_health)
+        pygame.draw.rect(self.screen,(255,0,0),total_bar)
+
 
     def generate_level(self):
         """Delete all tiles in desired layer"""
@@ -75,6 +89,13 @@ class RogueLike():
 
         # place sprites/tiles
         self.map.generate(self)
+        self.display_health()
+
+    def start_screen(self):
+        pass
+
+    def end_screen(self):
+        pass
 
     def gameloop(self):
         """Run the main game loop"""
@@ -120,6 +141,7 @@ class RogueLike():
             if(self.hero.characteristics.curr_health <= 0):
                 print("You died.")
                 pygame.quit()
+                run = False
         pygame.quit()
 
 

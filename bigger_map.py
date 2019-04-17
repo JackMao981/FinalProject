@@ -40,27 +40,29 @@ class Map:
             for y in range(0,20):
                 if random.random() > 0.2:
                     FloorSprite(rogue.tile_layers, rogue.sprite_handler, (x, y))
+        FloorSprite(rogue.tile_layers, rogue.sprite_handler, (10, 10))
 
-        # randomly place door
         is_door_placed = False
-        for x in range(0, 20):
-            for y in range(0, 20):
-                if random.random() > 0.5 and not is_door_placed:
-                    is_door_placed = True
-                    DoorSprite(rogue.tile_layers, rogue.sprite_handler, (x, y))
-
+        while(not is_door_placed):
+            x = random.randint(0,20)
+            y = random.randint(0,20)
+            if(not (x == 10 and y == 10)):
+                DoorSprite(rogue.tile_layers, rogue.sprite_handler, (x, y))
+                is_door_placed = True
         # randomly place items
         for x in range(0, 20):
             for y in range(0, 20):
-                if random.random() < 0.09:
+                if random.random() < 0.09 and not (x == 10 and y == 10):
                     ItemSprite(rogue.tile_layers, rogue.sprite_handler, (x, y))
-        
+                    FloorSprite(rogue.tile_layers, rogue.sprite_handler, (x, y))
+
         # randomly place enemies
         for x in range(0, 20):
             for y in range(0, 20):
-                if random.random() < 0.02:
+                if random.random() < 0.02 and not (x == 10 and y == 10):
                     characteristics = Characteristics(616,616,350,350, 66,0,36,1.6, [])
                     EnemySprite(rogue.tile_layers, rogue.sprite_handler, (x, y), characteristics)
+                    FloorSprite(rogue.tile_layers, rogue.sprite_handler, (x, y))
 
         # place walls wherever there isn't a floor
         self.wall_placer(rogue)
@@ -73,5 +75,15 @@ class Map:
                 for tile in rogue.tile_layers["TILE_FLOOR"]:
                     if tile.pos.x == x and tile.pos.y == y:
                         overlap = True
-                if not overlap:
+                for tile in rogue.tile_layers["TILE_DOOR"]:
+                    if tile.pos.x == x and tile.pos.y == y:
+                        overlap = True
+                for tile in rogue.tile_layers["TILE_ENEMY"]:
+                    if tile.pos.x == x and tile.pos.y == y:
+                        overlap = True
+                for tile in rogue.tile_layers["TILE_ITEM"]:
+                    if tile.pos.x == x and tile.pos.y == y:
+                        overlap = True
+
+                if not overlap and not (x == 10 and y == 10):
                     WallSprite(rogue.tile_layers, rogue.sprite_handler, (x, y))

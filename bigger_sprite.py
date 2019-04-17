@@ -206,6 +206,7 @@ class HeroSprite(pygame.sprite.Sprite):
        self.pos.x += delta[0]
        self.pos.y += delta[1]
 
+
     def collide(self, layer, delta):
         """check if character will collide with the given layer:
         layer: group of sprites
@@ -230,21 +231,19 @@ class HeroSprite(pygame.sprite.Sprite):
         """Handles movement events for the player
         rogue: main roguelike game instance
         delta: tuple with dx and dy, respectively"""
-        if not self.collide(rogue.tile_layers["TILE_WALL"], delta):
-            self.move(delta)
         if self.doorCollide(rogue.tile_layers["TILE_DOOR"], delta):
             print("level done!")
             rogue.generate_level()
         if self.collide(rogue.tile_layers["TILE_ENEMY"], delta):
             # handle damage chance / attach interaction
             self.attack(self.collide(rogue.tile_layers["TILE_ENEMY"], delta))
-            self.characteristics.print_health()
         if self.collide(rogue.tile_layers["TILE_ITEM"], delta):
             # handle damage chance / attach interaction
             print("item get")
-            self.characteristics.print_health()
             self.characteristics.add_item(self.collide(rogue.tile_layers["TILE_ITEM"], delta).item)
             self.collide(rogue.tile_layers["TILE_ITEM"], delta).kill()
+        if not self.collide(rogue.tile_layers["TILE_WALL"], delta):
+            self.move(delta)
 
     def attack(self, enemy):
         """
@@ -301,15 +300,15 @@ class EnemySprite(pygame.sprite.Sprite):
        self.pos.x += delta[0]
        self.pos.y += delta[1]
 
-    def collide(self, layer, delta):
-        """check if character will collide with the given layer:
-        layer: group of sprites
-        delta: tuple with dx and dy, respectively"""
-        for tile in layer:
-            if (tile.pos.x == self.pos.x + delta[0] and tile.pos.y == self.pos.y + delta[1]):
-                print("wall collision")
-                return tile
-        return False
+#    def collide(self, layer, delta):
+#        """check if character will collide with the given layer:
+#        layer: group of sprites
+#        delta: tuple with dx and dy, respectively"""
+#        for tile in layer:
+#            if (tile.pos.x == self.pos.x + delta[0] and tile.pos.y == self.pos.y + delta[1]):
+#                print("wall collision")
+#                return tile
+#        return False
 
 class ItemSprite(pygame.sprite.Sprite):
     """Class Representing a floor tile,
@@ -330,7 +329,7 @@ class ItemSprite(pygame.sprite.Sprite):
         self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in ITEM_TILE]
         self.tile = self.tiles[0]
 
-        self.item = Doran_sheild()
+        self.item = Potion()
         self.rect = self.tile.get_rect()
         self.pos = pygame.math.Vector2(position[0], position[1])
         self.rect.topleft = self.pos * 256
@@ -409,7 +408,9 @@ class Characteristics:
             if (key == "atk"):
                 self.atk += item.modifiers[key]
             if (key == "health"):
-                self.health += item.modifiers[key]
+                self.curr_health += item.modifiers[key]
+                if(self.curr_health > self.max_health):
+                    self.curr_health = self.max_health
             if (key == "max_health"):
                 self.max_health += item.modifiers[key]
                 self.curr_health += item.modifiers[key]
@@ -428,8 +429,8 @@ class Item:
         """
         self.modifiers = modifiers
         self.name = name
-class Doran_sheild(Item):
-    def __init__(self, modifiers = {"max_health":80, "armor": 10}, name = "Doran's Shield"):
+class Potion(Item):
+    def __init__(self, modifiers = {"health":80, "armor": 10}, name = "Doran's Shield"):
         """
         creates Doran_sheild, an item that modifies max_health and armor
         Doran sheild be initialized by its default values only
