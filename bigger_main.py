@@ -65,13 +65,16 @@ class RogueLike():
 
 
     def display_health(self):
+        """Creates a vertical health bar on the left side of the screen"""
         curr_health = self.hero.characteristics.curr_health
         max_health = self.hero.characteristics.max_health
         x_location = 10
         y_location = 10
         height = 50
+        #background bar, 5 pixels bigger than maximum health bar in all directions
         total_bar = pygame.Rect(x_location, y_location,height, max_health+10)
         pygame.draw.rect(self.screen,(255,255,255),total_bar)
+        #actual health bar
         curr_bar = pygame.Rect(x_location+5,y_location+5, height-10, curr_health)
         pygame.draw.rect(self.screen,(255,0,0),total_bar)
 

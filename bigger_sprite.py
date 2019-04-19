@@ -1,6 +1,11 @@
 import pygame
 import random
-
+"""
+This module defines the different classes of sprites and their abilities,
+including getting their appearance from mousesheet. It also includes SpriteHandler,
+which keep track of the sprites as a whole and is used to interact with groups of
+sprites from other modules.
+"""
 # Define where objects are in our sprite file.
 # Each sprite is 16x16 pixels in size, and the
 # image is 256x256 pixels in size, to allow for
@@ -9,6 +14,7 @@ import random
 # the traditional pink. this decision was made
 # because I looked at lots of spritesheets and
 # they all used pink pretty much
+
 WALL_TILE = [(0, 0)]
 FLOOR_TILE = [(1, 0)]
 PLAYER_TILE = [(2, 0)]

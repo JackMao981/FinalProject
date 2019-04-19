@@ -2,9 +2,13 @@ import pygame
 import bigger_sprite as sprite
 from bigger_sprite import *
 import random
+"""
+Map Generator Class, for randomly generating a map
+or for a constant map!
+It contains code that makes the map track with the players movement
+and code that prevents generating multiple sprites on one tile
+"""
 
-# Map Generator Class, for randomly generating a map
-# or for a constant map!
 class Map:
     def __init__(self):
         """Create a new handler for map related interactions"""
