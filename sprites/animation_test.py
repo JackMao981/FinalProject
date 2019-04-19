@@ -5,7 +5,7 @@ from pygame.locals import *
 import sys
 import time
 import pyganim
-"""
+
 # Count Neko
 
 pygame.init()
@@ -31,17 +31,17 @@ while True:
     count_neko.blit(windowSurface, (100, 50))
     pygame.display.update()
 
-"""
+
 """
 # Mouse Front Static
 pygame.init()
 windowSurface = pygame.display.set_mode((320, 240))
 pygame.display.set_caption('Mouse Static Front Demo')
 
-mouse_front_static = pyganim.PygAnimation([('/home/lee/FinalProject/sprites/sprite_png/lmf0.png', 600),
-                                ('/home/lee/FinalProject/sprites/sprite_png/lms0.png', 200),
-                                ('/home/lee/FinalProject/sprites/sprite_png/lms1.png', 200),
-                                ('/home/lee/FinalProject/sprites/sprite_png/lms0.png', 200)])
+mouse_front_static = pyganim.PygAnimation([('../sprites/sprite_png/lmf0.png', 600),
+                                ('../sprites/sprite_png/lms0.png', 200),
+                                ('../sprites/sprite_png/lms1.png', 200),
+                                ('../sprites/sprite_png/lms0.png', 200)])
 mouse_front_static.play()
 
 mainClock = pygame.time.Clock()
@@ -57,8 +57,9 @@ while True:
     mouse_front_static.blit(windowSurface, (100, 50))
     pygame.display.update()
     
-"""
 
+
+"""
 """
 # Mouse Back Static
 
@@ -238,7 +239,7 @@ while True:
             elif direction == DOWN:
                 animObjs['front_walk'].blit(windowSurface, (x, y))
             elif direction == LEFT:
-                animObjs['left_walk'].blit(windowSurface, (x, y))
+                an count_neko.blit(windowSurface, (100, 50))imObjs['left_walk'].blit(windowSurface, (x, y))
             elif direction == RIGHT:
                 animObjs['right_walk'].blit(windowSurface, (x, y))
 
