@@ -1,16 +1,18 @@
-# Interactive Visualization Project - Dithered
-### By Dieter Brehm and Jack Mao
+# Final Project - Little Mouse
+### By Jack Mao, Lee Smith, and Melissa Anthony
 
 ## Overview
-A project that uses Python to create an interactive visualization in the form of a roguelike rpg videogame.
+A project that uses Python packages Pygame and Pyganim to create a polished roguelike rpg videogame.
 
 ## Setup
 Uses the following python packages:  
 * Pygame - Install using their installation instructions, but typically
 `pip install pygame`
+* Pyganim - Install using their installation instructions, but typically is 
+`pip install pyganim`
 
 ## Usage
-run the game with `python3 main.py`
+run the game with `python3 bigger_main.py`
 
 ## Developing and Contributing
 This project is developed using a pseudo-flow git model. Ideally, a new branch is
@@ -26,3 +28,8 @@ follows:
 	2.   commit any changes!  
 * Merge work back into master through GitHub most likely.  
 * Time for another feature!  
+
+Acknowledgements: 
+Jack Mao and Dieter Brehn's MP4: Dithered
+Pygame & Pyganim Community
+
