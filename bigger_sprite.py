@@ -15,7 +15,7 @@ PLAYER_TILE = [(2, 0)]
 DOOR_TILE = [(3, 0)]
 ITEM_POTION_TILE = [(4,0)]
 ITEM_HEART_TILE = [(5,0)]
-ITEM_SHEILD_TILE = [(6,0)]
+ITEM_SHEILD_TILE = [(0,2)]
 ENEMY_TILE = [(0,1)]
 SPRITE_PATH = "sprites/mousesheet.bmp"
 
@@ -239,9 +239,10 @@ class HeroSprite(pygame.sprite.Sprite):
         if self.collide(rogue.tile_layers["TILE_ENEMY"], delta):
             # handle damage chance / attach interaction
             self.attack(self.collide(rogue.tile_layers["TILE_ENEMY"], delta))
+            print("Health: ", self.characteristics.curr_health, "/", self.characteristics.max_health)
         if self.collide(rogue.tile_layers["TILE_ITEM"], delta):
             # handle damage chance / attach interaction
-            print("item get")
+            print("item get", self.collide(rogue.tile_layers["TILE_ITEM"], delta).item.name)
             self.characteristics.add_item(self.collide(rogue.tile_layers["TILE_ITEM"], delta).item)
             self.collide(rogue.tile_layers["TILE_ITEM"], delta).kill()
         if not self.collide(rogue.tile_layers["TILE_WALL"], delta) and not self.collide(rogue.tile_layers["TILE_ENEMY"], delta) :
@@ -332,14 +333,11 @@ class ItemSprite(pygame.sprite.Sprite):
         rand = random.randint(0,2)
         if(rand == 0):
             self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in ITEM_POTION_TILE]
-            self.tile = self.tiles[0]
         elif(rand == 1):
             self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in ITEM_SHEILD_TILE]
-            self.tile = self.tiles[0]
         elif(rand == 2):
             self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in ITEM_HEART_TILE]
-            self.tile = self.tiles[0]
-
+        self.tile = self.tiles[0]
         self.item = list_of_items[rand]
         self.rect = self.tile.get_rect()
         self.pos = pygame.math.Vector2(position[0], position[1])
