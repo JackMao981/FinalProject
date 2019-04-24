@@ -15,7 +15,7 @@ PLAYER_TILE = [(2, 0)]
 DOOR_TILE = [(3, 0)]
 ITEM_POTION_TILE = [(4,0)]
 ITEM_HEART_TILE = [(5,0)]
-ITEM_SHEILD_TILE = [(0,2)]
+ITEM_SHEILD_TILE = [(1,1)]
 ENEMY_TILE = [(0,1)]
 SPRITE_PATH = "sprites/mousesheet.bmp"
 
