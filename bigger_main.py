@@ -74,7 +74,7 @@ class RogueLike():
         total_bar = pygame.Rect(x_location, y_location,height, max_health+10)
         pygame.draw.rect(self.screen,(255,255,255),total_bar)
         curr_bar = pygame.Rect(x_location+5,y_location+5, height-10, curr_health)
-        pygame.draw.rect(self.screen,(255,0,0),total_bar)
+        pygame.draw.rect(self.screen,(255,0,0),curr_bar)
 
 
     def generate_level(self):
