@@ -258,8 +258,10 @@ class HeroSprite(pygame.sprite.Sprite):
         self.characteristics.curr_health -= hero_damage_taken
         enemy.characteristics.curr_health -= enemy_damage_taken
         if (enemy.characteristics.curr_health <= 0):
+            enemy_sound.play()
             enemy.kill()
         print("I'm attacking")
+        hit_sound.play()
 
 class EnemySprite(pygame.sprite.Sprite):
     """Class Representing the player,
