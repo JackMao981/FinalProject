@@ -39,6 +39,13 @@ class RogueLike():
             "TILE_ITEM": pygame.sprite.Group(),
             "TILE_ENEMY": pygame.sprite.Group()}
 
+        enemy_sound = pygame.mixer.Sound("hiss.mp3")
+        hit_sound = pygame.mixer.Sound("hit.mp3")
+        move_sound = pygame.mixer.Sound("step.mp3")
+        damage_sound = pygame.mixer.Sound("damage.mp3")
+        dead_sound = pygame.mixer.Sound("dead.mp3")
+        panic_sound = pygame.mixer.Sound("panic.mp3")
+
     def spriteRender(self):
         """Reblit all sprites onto the main screen"""
 
@@ -74,6 +81,10 @@ class RogueLike():
         pygame.draw.rect(self.screen,(255,255,255),total_bar)
         curr_bar = pygame.Rect(x_location+5,y_location+5, height-10, curr_health)
         pygame.draw.rect(self.screen,(255,0,0),curr_bar)
+        if curr_health<50:
+            panic_sound.play(-1)
+        else:
+            panic_sound.stop()
 
 
     def generate_level(self):
@@ -123,24 +134,23 @@ class RogueLike():
                     # touched tile. Delta change according to
                     # the direction pressed and is the desired
                     # movement in units of tiles
+                    move_sound.play()
                     if event.key == pygame.K_LEFT:
                         delta = (-1, 0)
-                        self.hero.collisionHandler(self, delta)
                     if event.key == pygame.K_RIGHT:
                         delta = (1, 0)
-                        self.hero.collisionHandler(self, delta)
                     if event.key == pygame.K_UP:
                         delta = (0, -1)
-                        self.hero.collisionHandler(self, delta)
                     if event.key == pygame.K_DOWN:
                         delta = (0, 1)
-                        self.hero.collisionHandler(self, delta)
+                    self.hero.collisionHandler(self, delta)
             self.spriteRender()
 
             # quit the game when the hero's health is 0
             if(self.hero.characteristics.curr_health <= 0):
                 print("You died.")
-                pygame.quit()
+                #todo: end screen
+                dead_sound.play
                 run = False
         pygame.quit()
 
