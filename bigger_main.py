@@ -1,6 +1,6 @@
 """
 Rogue-like
-@author: Jack Mao and Dieter Brehm
+@author: Jack Mao, Lee Smith, Melissa Anthony
 """
 
 # grab the pygame library
@@ -22,8 +22,9 @@ class RogueLike():
         """Initialize the roguelike game instance. Handles
         utility functions necessary for pygame and the
         main game loop"""
+
         pygame.init()
-        self.screen = pygame.display.set_mode((1024, 1024))
+        self.screen = pygame.display.set_mode((2048, 1224))
         self.clock = pygame.time.Clock()
 
         # load the sprite image set
@@ -135,14 +136,25 @@ class RogueLike():
                     if event.key == pygame.K_DOWN:
                         delta = (0, 1)
                         self.hero.collisionHandler(self, delta)
-            self.spriteRender()
+                        # quit the game when the hero's health is 0
+                        if self.hero.characteristics.curr_health <= 0:
+                            dead = True
+                            while dead:
+                                deadmau = pygame.image.load('./sprites/sprite_png/deadmau.png')
+                                display_surface = pygame.display.set_mode((0, 0))
+                                display_surface.blit(deadmau, (0, 0))
+                                pygame.display.update()
+                                events = pygame.event.get()
+                                for event in events:
+                                    if event.key == pygame.K_q:
+                                        pygame.quit()
+                                        return
 
-            # quit the game when the hero's health is 0
-            if(self.hero.characteristics.curr_health <= 0):
-                print("You died.")
-                pygame.quit()
-                run = False
+
+            self.spriteRender()
         pygame.quit()
+
+
 
 
 if __name__ == "__main__":
