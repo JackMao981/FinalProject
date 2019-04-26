@@ -85,7 +85,7 @@ class RogueLike():
         fade = pygame.image.load("./sprites/sprite_png/fade.png")
         display_surface.blit(fade, (0, 0))
         fade.set_alpha(0)  # make it completely transparent
-        
+
         for i in range(255):
             fade.set_alpha(i)
             pygame.display.flip()
@@ -101,15 +101,14 @@ class RogueLike():
         self.hero.posReset((10, 10))
         self.map = Map()
 
-        # place sprites/tiles
-        self.map.generate(self)
-        self.display_health()
 
         for i in range(255):
             fade.set_alpha(255 - i)
             pygame.display.flip()
 
-
+        # place sprites/tiles
+        self.map.generate(self)
+        self.display_health()
 
 
     def gameloop(self):
