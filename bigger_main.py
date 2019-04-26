@@ -66,6 +66,7 @@ class RogueLike():
 
 
     def display_health(self):
+        
         curr_health = self.hero.characteristics.curr_health
         max_health = self.hero.characteristics.max_health
         x_location = 10
@@ -173,6 +174,7 @@ class RogueLike():
                                     if event.key == pygame.K_q:
                                         pygame.quit()
                                         return
+
 
 
             self.spriteRender()
