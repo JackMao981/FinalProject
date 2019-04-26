@@ -44,7 +44,7 @@ class RogueLike():
         """Reblit all sprites onto the main screen"""
 
         # fill the screen with bg color
-        self.screen.fill(pygame.Color(0, 0, 0))
+        self.screen.fill(pygame.Color(0,0,0))
 
         # iterate through all tile layers,
         # drawing the tile specified in sprite
@@ -70,45 +70,27 @@ class RogueLike():
         max_health = self.hero.characteristics.max_health
         x_location = 10
         y_location = 10
-        height = 150
-        total_bar = pygame.Rect(x_location, y_location,height, height)
+        height = 50
+        total_bar = pygame.Rect(x_location, y_location,height, max_health+10)
         pygame.draw.rect(self.screen,(255,255,255),total_bar)
-        curr_bar = pygame.Rect(x_location+5,y_location+5 + (1-curr_health / max_health) * (height - 10), height-10, curr_health / max_health * (height - 10))
+        curr_bar = pygame.Rect(x_location+5,y_location+5, height-10, curr_health)
         pygame.draw.rect(self.screen,(255,0,0),curr_bar)
 
 
     def generate_level(self):
         """Delete all tiles in desired layer"""
-        # fade in
-        display_surface = pygame.display.set_mode((0, 0))
-        fade = pygame.image.load("./sprites/sprite_png/fade.png")
-        display_surface.blit(fade, (0, 0))
-        fade.set_alpha(0)  # make it completely transparent
-        clock = pygame.time.Clock()
-        for i in range(255):
-            fade.set_alpha(i)
-            pygame.display.flip()
-            clock.tick(30)  # framerate
-
-
         for layer in self.tile_layers:
             for tile in self.tile_layers[layer]:
                 tile.kill()
 
-        # characteristics = Characteristics(616,616,350,66,0,36,1.6, [])
-        # self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10,10), characteristics)
+        #characteristics = Characteristics(616,616,350,66,0,36,1.6, [])
+        #self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10,10), characteristics)
         self.hero.posReset((10, 10))
         self.map = Map()
 
         # place sprites/tiles
         self.map.generate(self)
         self.display_health()
-
-        for i in range(255):
-            fade.set_alpha(255 - i)
-            pygame.display.flip()
-
-
 
 
     def gameloop(self):
@@ -119,7 +101,7 @@ class RogueLike():
 
         # create the hero!
         characteristics = Characteristics(616,616,350, 350, 66,0,36,1.6, [])
-        self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10,10), characteristics)
+        self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10, 10), characteristics)
 
         # starts the game
         start = True
