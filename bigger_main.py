@@ -66,7 +66,7 @@ class RogueLike():
 
 
     def display_health(self):
-        
+
         curr_health = self.hero.characteristics.curr_health
         max_health = self.hero.characteristics.max_health
         x_location = 10
@@ -85,11 +85,11 @@ class RogueLike():
         fade = pygame.image.load("./sprites/sprite_png/fade.png")
         display_surface.blit(fade, (0, 0))
         fade.set_alpha(0)  # make it completely transparent
-        clock = pygame.time.Clock()
+        
         for i in range(255):
             fade.set_alpha(i)
             pygame.display.flip()
-            clock.tick(30)  # framerate
+
 
 
         for layer in self.tile_layers:
