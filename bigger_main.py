@@ -161,19 +161,21 @@ class RogueLike():
                         delta = (0, 1)
                         self.hero.collisionHandler(self, delta)
                         # quit the game when the hero's health is 0
-                        if self.hero.characteristics.curr_health <= 0:
-                            dead = True
-                            while dead:
-                                deadmau = pygame.image.load('./sprites/sprite_png/deadmau.png')
-                                display_surface = pygame.display.set_mode((0, 0))
-                                display_surface.blit(deadmau, (0, 0))
-                                pygame.display.update()
-                                events = pygame.event.get()
-                                for event in events:
-                                    if event.key == pygame.K_q:
-                                        pygame.quit()
-                                        return
-
+            if self.hero.characteristics.curr_health <= 0:
+                dead = True
+                while dead:
+                    deadmau = pygame.image.load('./sprites/sprite_png/deadmau.png')
+                    display_surface = pygame.display.set_mode((0, 0))
+                    display_surface.blit(deadmau, (0, 0))
+                    pygame.display.update()
+                    events = pygame.event.get()
+                    for event in events:
+                        if event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_q:
+                                pygame.quit()
+                                return
+                            elif event.key == pygame.K_SPACE:
+                                self.gameloop()
 
 
             self.spriteRender()
