@@ -11,21 +11,27 @@ import random
 # they all used pink pretty much
 WALL_TILE = [(0, 0)]
 FLOOR_TILE = [(1, 0)]
-PLAYER_TILE = [(2, 0)]
+PLAYER_TILE = [(0, 3)]
 DOOR_TILE = [(3, 0)]
-ITEM_POTION_TILE = [(4,0)]
-ITEM_HEART_TILE = [(5,0)]
-ITEM_SHEILD_TILE = [(0,2)]
-ENEMY_TILE = [(0,1)]
 ITEM_POTION_TILE = [(4, 0)]
-ITEM_HEART_TILE = [(1, 1)]
-ITEM_SHIELD_TILE = [(2, 1)]
+ITEM_HEART_TILE = [(4, 0)]
+ITEM_SHIELD_TILE = [(5, 0)]
 ENEMY_TILE = [(0, 1)]
-SPRITE_PATH = "sprites/mousesheet.bmp"
+# New sprite sheet
+TILE_PATH = "sprites/master.bmp"
+
+# has to be different bc different size
+NEKO_PATH = "sprites/nekoanisheet.bmp"
+
+#WIP for Hero movement
+front_standing = PLAYER_TILE
+back_standing = [(5, 3)]
+left_standing = pygame.transform.flip(front_standing, True, False)
+
 
 
 class SpriteHandler:
-    """Sprite class to handle common sprite operations"""
+    """Sprite class to handle common sprite operations for sprites animations"""
     def __init__(self):
         # load the texture file into a surface
         # the beginner guide on pygame told me
@@ -58,7 +64,40 @@ class SpriteHandler:
                 # fetch them using this system,
                 self.sprites[y * self.tileset_width + x] = self.imageHandler((x * self.tile_width,
                                                                              y * self.tile_height), 256)
+class NekoSpriteHandler:
+    """Sprite class to handle common sprite operations for Count Neko (32x32)"""
+    def __init__(self):
+        # load the texture file into a surface
+        # the beginner guide on pygame told me
+        # that .convert increases render speed
+        self.tilemap = pygame.image.load(NEKO_PATH).convert()
+        self.tilemap_width, self.tilemap_height = self.tilemap.get_size() # 1024 x 1024
 
+        # set per-tile size
+        self.tile_width = 32
+        self.tile_height = 32
+
+        # make a coordinate system in terms of tile size
+        # e.g. 256x256 divided into 16x16 tiles
+        self.tileset_width = int(self.tilemap_width / self.tile_width)
+        self.tileset_height = int(self.tilemap_height / self.tile_height)
+
+        self.tile_count = self.tileset_height * self.tileset_width
+
+        # initialize a list of the right size of sprites
+        self.sprites = [None for _ in range(self.tile_count)]
+
+        # loop through the coordinates of the tileset, e.g. 256/16
+        for x in range(self.tileset_height):
+            for y in range(self.tileset_width):
+                # set the sprite at a given position to the corresponding
+                # position this is like reshaping a matrix into a 1D vector
+                # of "pixels" where the "pixels" are instead our tiles
+
+                # Later, we can define where the wall or item tiles are and
+                # fetch them using this system,
+                self.sprites[y * self.tileset_width + x] = self.imageHandler((x * self.tile_width,
+                                                                             y * self.tile_height), 256)
     def imageHandler(self, position, sprite_size):
         """returns a pygame surface containing the
         tile at the given x,y position in terms
@@ -243,15 +282,12 @@ class HeroSprite(pygame.sprite.Sprite):
         if self.collide(rogue.tile_layers["TILE_ENEMY"], delta):
             # handle damage chance / attach interaction
             self.attack(self.collide(rogue.tile_layers["TILE_ENEMY"], delta))
-            print("Health: ", self.characteristics.curr_health, "/", self.characteristics.max_health)
         if self.collide(rogue.tile_layers["TILE_ITEM"], delta):
             # handle damage chance / attach interaction
-            print("item get", self.collide(rogue.tile_layers["TILE_ITEM"], delta).item.name)
+            print("item get")
             self.characteristics.add_item(self.collide(rogue.tile_layers["TILE_ITEM"], delta).item)
             self.collide(rogue.tile_layers["TILE_ITEM"], delta).kill()
-        if self.collide(rogue.tile_layers["TILE_WALL"], delta):
-            hit_sound.play()
-        if not self.collide(rogue.tile_layers["TILE_WALL"], delta) and not self.collide(rogue.tile_layers["TILE_ENEMY"], delta) :
+        if not self.collide(rogue.tile_layers["TILE_WALL"], delta):
             self.move(delta)
 
     def attack(self, enemy):
@@ -259,17 +295,13 @@ class HeroSprite(pygame.sprite.Sprite):
         Handles the subtraction of hero's and enemy's current hp
         enemy: a tile instance of the enemy
         """
-        enemy_sound = pygame.mixer.Sound('purr.ogg')
         hero_damage_taken = self.characteristics.damage_taken(enemy.characteristics.damage_output())
         enemy_damage_taken = self.characteristics.damage_taken(self.characteristics.damage_output())
         self.characteristics.curr_health -= hero_damage_taken
         enemy.characteristics.curr_health -= enemy_damage_taken
         if (enemy.characteristics.curr_health <= 0):
-            self.enemy_sound.play()
             enemy.kill()
         print("I'm attacking")
-        self.enemy_sound.play()
-        self.hit_sound.play()
 
 class EnemySprite(pygame.sprite.Sprite):
     """Class Representing the player,
@@ -339,18 +371,10 @@ class ItemSprite(pygame.sprite.Sprite):
         # uses list comprehension to grab
         # locations from my const and fetches
         # images for those locations
-        list_of_items = [Potion(), Sheild(), Heart()]
-        list_of_items = [Potion(), Shield(), Heart()]
-        rand = random.randint(0,2)
-        if(rand == 0):
-            self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in ITEM_POTION_TILE]
-        elif(rand == 1):
-            self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in ITEM_SHEILD_TILE]
-            self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in ITEM_SHIELD_TILE]
-        elif(rand == 2):
-            self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in ITEM_HEART_TILE]
+        self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in ITEM_TILE]
         self.tile = self.tiles[0]
-        self.item = list_of_items[rand]
+
+        self.item = Potion()
         self.rect = self.tile.get_rect()
         self.pos = pygame.math.Vector2(position[0], position[1])
         self.rect.topleft = self.pos * 256
@@ -451,41 +475,10 @@ class Item:
         self.modifiers = modifiers
         self.name = name
 class Potion(Item):
-    def __init__(self, modifiers = {"health":80}, name = "Doran's Shield"):
+    def __init__(self, modifiers = {"health":80, "armor": 10}, name = "Doran's Shield"):
         """
         creates Doran_sheild, an item that modifies max_health and armor
         Doran sheild be initialized by its default values only
-        creates Doran_shield, an item that modifies max_health and armor
-        Doran shield be initialized by its default values only
-        modifiers: dictionary, stores the attributes of the item
-        name: string, stores the name of the item
-        """
-        Item.__init__(self, modifiers, name)
-        self.modifiers = modifiers
-        self.name = name
-
-class Sheild(Item):
-class Shield(Item):
-    def __init__(self, modifiers = {"armor": 10}, name = "Doran's Shield"):
-        """
-        creates Doran_sheild, an item that modifies max_health and armor
-        Doran sheild be initialized by its default values only
-        creates Doran_shield, an item that modifies max_health and armor
-        Doran shield be initialized by its default values only
-        modifiers: dictionary, stores the attributes of the item
-        name: string, stores the name of the item
-        """
-        Item.__init__(self, modifiers, name)
-        self.modifiers = modifiers
-        self.name = name
-
-class Heart(Item):
-    def __init__(self, modifiers = {"max_health": 10}, name = "Doran's Shield"):
-        """
-        creates Doran_sheild, an item that modifies max_health and armor
-        Doran sheild be initialized by its default values only
-        creates Doran_shield, an item that modifies max_health and armor
-        Doran shield be initialized by its default values only
         modifiers: dictionary, stores the attributes of the item
         name: string, stores the name of the item
         """

@@ -24,7 +24,6 @@ class RogueLike():
         main game loop"""
 
         pygame.init()
-        pygame.mixer.init()
         self.screen = pygame.display.set_mode((2048, 1224))
         self.clock = pygame.time.Clock()
 
@@ -41,17 +40,11 @@ class RogueLike():
             "TILE_ITEM": pygame.sprite.Group(),
             "TILE_ENEMY": pygame.sprite.Group()}
 
-        hit_sound = pygame.mixer.Sound("sharp_hit.ogg")
-        move_sound = pygame.mixer.Sound("step.ogg")
-        damage_sound = pygame.mixer.Sound("damage.ogg")
-        dead_sound = pygame.mixer.Sound("dead.ogg")
-        panic_sound = pygame.mixer.Sound("panic.ogg")
-
     def spriteRender(self):
         """Reblit all sprites onto the main screen"""
 
         # fill the screen with bg color
-        self.screen.fill(pygame.Color(0, 0, 0))
+        self.screen.fill(pygame.Color(0,0,0))
 
         # iterate through all tile layers,
         # drawing the tile specified in sprite
@@ -73,49 +66,27 @@ class RogueLike():
 
 
     def display_health(self):
-
         curr_health = self.hero.characteristics.curr_health
         max_health = self.hero.characteristics.max_health
         x_location = 10
         y_location = 10
-        height = 150
-        total_bar = pygame.Rect(x_location, y_location,height, height)
+        height = 50
+        total_bar = pygame.Rect(x_location, y_location,height, max_health+10)
         pygame.draw.rect(self.screen,(255,255,255),total_bar)
-        curr_bar = pygame.Rect(x_location+5,y_location+5 + (1-curr_health / max_health) * (height - 10), height-10, curr_health / max_health * (height - 10))
+        curr_bar = pygame.Rect(x_location+5,y_location+5, height-10, curr_health)
         pygame.draw.rect(self.screen,(255,0,0),curr_bar)
-        if curr_health<50:
-            panic_sound.play(-1)
-        else:
-            panic_sound.stop()
 
 
     def generate_level(self):
         """Delete all tiles in desired layer"""
-        # fade in
-        display_surface = pygame.display.set_mode((0, 0))
-        fade = pygame.image.load("./sprites/sprite_png/fade.png")
-        display_surface.blit(fade, (0, 0))
-        fade.set_alpha(0)  # make it completely transparent
-
-        for i in range(255):
-            fade.set_alpha(i)
-            pygame.display.flip()
-
-
-
         for layer in self.tile_layers:
             for tile in self.tile_layers[layer]:
                 tile.kill()
 
-        # characteristics = Characteristics(616,616,350,66,0,36,1.6, [])
-        # self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10,10), characteristics)
+        #characteristics = Characteristics(616,616,350,66,0,36,1.6, [])
+        #self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10,10), characteristics)
         self.hero.posReset((10, 10))
         self.map = Map()
-
-
-        for i in range(255):
-            fade.set_alpha(255 - i)
-            pygame.display.flip()
 
         # place sprites/tiles
         self.map.generate(self)
@@ -130,7 +101,7 @@ class RogueLike():
 
         # create the hero!
         characteristics = Characteristics(616,616,350, 350, 66,0,36,1.6, [])
-        self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10,10), characteristics)
+        self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10, 10), characteristics)
 
         # starts the game
         start = True
@@ -159,26 +130,17 @@ class RogueLike():
                     # touched tile. Delta change according to
                     # the direction pressed and is the desired
                     # movement in units of tiles
-                    move_sound.play()
                     if event.key == pygame.K_LEFT:
                         delta = (-1, 0)
+                        self.hero.collisionHandler(self, delta)
                     if event.key == pygame.K_RIGHT:
                         delta = (1, 0)
+                        self.hero.collisionHandler(self, delta)
                     if event.key == pygame.K_UP:
                         delta = (0, -1)
+                        self.hero.collisionHandler(self, delta)
                     if event.key == pygame.K_DOWN:
                         delta = (0, 1)
-<<<<<<< HEAD
-                    self.hero.collisionHandler(self, delta)
-            self.spriteRender
-
-            # quit the game when the hero's health is 0
-            if(self.hero.characteristics.curr_health <= 0):
-                print("You died.")
-                #todo: end screen
-                dead_sound.play()
-                run = False
-=======
                         self.hero.collisionHandler(self, delta)
                         # quit the game when the hero's health is 0
                         if self.hero.characteristics.curr_health <= 0:
@@ -195,9 +157,7 @@ class RogueLike():
                                         return
 
 
-
             self.spriteRender()
->>>>>>> b9acdc59db8628622a04d86fb83b21ab92fccd5a
         pygame.quit()
 
 
