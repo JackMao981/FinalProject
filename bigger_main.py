@@ -23,6 +23,7 @@ class RogueLike():
         utility functions necessary for pygame and the
         main game loop"""
         pygame.init()
+        pygame.mixer.init()
         self.screen = pygame.display.set_mode((2048, 1224))
         self.clock = pygame.time.Clock()
 
@@ -39,12 +40,11 @@ class RogueLike():
             "TILE_ITEM": pygame.sprite.Group(),
             "TILE_ENEMY": pygame.sprite.Group()}
 
-        enemy_sound = pygame.mixer.Sound("hiss.mp3")
-        hit_sound = pygame.mixer.Sound("hit.mp3")
-        move_sound = pygame.mixer.Sound("step.mp3")
-        damage_sound = pygame.mixer.Sound("damage.mp3")
-        dead_sound = pygame.mixer.Sound("dead.mp3")
-        panic_sound = pygame.mixer.Sound("panic.mp3")
+        hit_sound = pygame.mixer.Sound("sharp_hit.ogg")
+        move_sound = pygame.mixer.Sound("step.ogg")
+        damage_sound = pygame.mixer.Sound("damage.ogg")
+        dead_sound = pygame.mixer.Sound("dead.ogg")
+        panic_sound = pygame.mixer.Sound("panic.ogg")
 
     def spriteRender(self):
         """Reblit all sprites onto the main screen"""
@@ -144,13 +144,13 @@ class RogueLike():
                     if event.key == pygame.K_DOWN:
                         delta = (0, 1)
                     self.hero.collisionHandler(self, delta)
-            self.spriteRender()
+            self.spriteRender
 
             # quit the game when the hero's health is 0
             if(self.hero.characteristics.curr_health <= 0):
                 print("You died.")
                 #todo: end screen
-                dead_sound.play
+                dead_sound.play()
                 run = False
         pygame.quit()
 
