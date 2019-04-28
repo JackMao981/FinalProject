@@ -15,6 +15,7 @@ import bigger_map as map
 from bigger_map import Map
 import bigger_sprite as sprite
 from bigger_sprite import SpriteHandler, WallSprite, FloorSprite, HeroSprite, Characteristics
+import time
 
 # Game Class, for handling game loop eventually
 class RogueLike():
@@ -39,6 +40,8 @@ class RogueLike():
             "TILE_DOOR": pygame.sprite.Group(),
             "TILE_ITEM": pygame.sprite.Group(),
             "TILE_ENEMY": pygame.sprite.Group()}
+
+
 
     def spriteRender(self):
         """Reblit all sprites onto the main screen"""
@@ -90,8 +93,6 @@ class RogueLike():
             fade.set_alpha(i)
             pygame.display.flip()
 
-
-
         for layer in self.tile_layers:
             for tile in self.tile_layers[layer]:
                 tile.kill()
@@ -119,8 +120,8 @@ class RogueLike():
 
         # create the hero!
         characteristics = Characteristics(616,616,350, 350, 66,0,36,1.6, [])
-        self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10,10), characteristics)
-
+        self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10, 10), characteristics)
+        deadmau = pygame.image.load('./sprites/sprite_png/deadmau.png')
         # starts the game
         start = True
         while start:
@@ -140,40 +141,46 @@ class RogueLike():
             for event in events:
                 if event.type == pygame.QUIT:
                     run = False
-                if event.type == pygame.KEYDOWN:
-                    # print the health on every turn
-                    #self.hero.characteristics.print_health()
 
-                    # collision handler changes reaction based on
-                    # touched tile. Delta change according to
-                    # the direction pressed and is the desired
-                    # movement in units of tiles
-                    if event.key == pygame.K_LEFT:
-                        delta = (-1, 0)
-                        self.hero.collisionHandler(self, delta)
-                    if event.key == pygame.K_RIGHT:
-                        delta = (1, 0)
-                        self.hero.collisionHandler(self, delta)
-                    if event.key == pygame.K_UP:
-                        delta = (0, -1)
-                        self.hero.collisionHandler(self, delta)
-                    if event.key == pygame.K_DOWN:
-                        delta = (0, 1)
-                        self.hero.collisionHandler(self, delta)
-                        # quit the game when the hero's health is 0
-                        if self.hero.characteristics.curr_health <= 0:
-                            dead = True
-                            while dead:
-                                deadmau = pygame.image.load('./sprites/sprite_png/deadmau.png')
-                                display_surface = pygame.display.set_mode((0, 0))
-                                display_surface.blit(deadmau, (0, 0))
-                                pygame.display.update()
-                                events = pygame.event.get()
-                                for event in events:
-                                    if event.key == pygame.K_q:
-                                        pygame.quit()
-                                        return
-
+                # print the health on every turn
+            #self.hero.characteristics.print_health()
+            keys = pygame.key.get_pressed()
+            time.sleep(.05)
+            #llision handler changes reaction based on
+            # touched tile. Delta change according to
+            # the direction pressed and is the desired
+            # movement in units of tiles
+            if keys[pygame.K_LEFT]:
+                delta = (-1, 0)
+                self.hero.collisionHandler(self, delta)
+            if keys[pygame.K_RIGHT]:
+                delta = (1, 0)
+                self.hero.collisionHandler(self, delta)
+            if keys[pygame.K_UP]:
+                delta = (0, -1)
+                self.hero.collisionHandler(self, delta)
+            if keys[pygame.K_DOWN]:
+                delta = (0, 1)
+                self.hero.collisionHandler(self, delta)
+                # quit the game when the hero's health is 0
+            if self.hero.characteristics.curr_health <= 0:
+                display_surface = pygame.display.set_mode((0, 0))
+                fade = pygame.image.load("./sprites/sprite_png/fade.png")
+                display_surface.blit(fade, (0, 0))
+                dead = True
+                while dead:
+                    display_surface = pygame.display.set_mode((0, 0))
+                    display_surface.blit(deadmau, (0, 0))
+                    pygame.display.update()
+                    events = pygame.event.get()
+                    print("DEAD")
+                    print(events)
+                    for event in events:
+                        if event.type == pygame.K_q:
+                            pygame.quit()
+                            return
+                        if event.type == pygame.K_SPACE:
+                            self.gameloop()
 
 
             self.spriteRender()

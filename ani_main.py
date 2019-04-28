@@ -11,10 +11,10 @@ import sys
 import os
 import math
 import random
-import bigger_map as map
-from bigger_map import Map
-import bigger_sprite as sprite
-from bigger_sprite import SpriteHandler, WallSprite, FloorSprite, HeroSprite, Characteristics
+import ani_map as map
+from ani_map import Map
+import ani_sprite as sprite
+from ani_sprite import SpriteHandler, WallSprite, FloorSprite, HeroSprite, Characteristics
 
 # Game Class, for handling game loop eventually
 class RogueLike():
@@ -83,8 +83,8 @@ class RogueLike():
             for tile in self.tile_layers[layer]:
                 tile.kill()
 
-        #characteristics = Characteristics(616,616,350,66,0,36,1.6, [])
-        #self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10,10), characteristics)
+        # characteristics = Characteristics(616,616,350,66,0,36,1.6, [])
+        # self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10,10), characteristics)
         self.hero.posReset((10, 10))
         self.map = Map()
 
@@ -100,7 +100,7 @@ class RogueLike():
         self.map.generate(self)
 
         # create the hero!
-        characteristics = Characteristics(616,616,350, 350, 66,0,36,1.6, [])
+        characteristics = Characteristics(616, 616, 350, 350, 66, 0, 36, 1.6, [])
         self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10, 10), characteristics)
 
         # starts the game
@@ -122,6 +122,7 @@ class RogueLike():
             for event in events:
                 if event.type == pygame.QUIT:
                     run = False
+                keys = pygame.ket.get_pressed()
                 if event.type == pygame.KEYDOWN:
                     # print the health on every turn
                     #self.hero.characteristics.print_health()
@@ -130,15 +131,24 @@ class RogueLike():
                     # touched tile. Delta change according to
                     # the direction pressed and is the desired
                     # movement in units of tiles
-                    if event.key == pygame.K_LEFT:
+                    if keys[pygame.K_LEFT]:
                         delta = (-1, 0)
                         self.hero.collisionHandler(self, delta)
+                        ani_sprite.moveLeft = True
+                        ani_sprite.moveRight = False
+                        if not ani_sprite.moveUp and not ani_sprite.moveDown:
+                            ani_sprite.direction = Left
                     if event.key == pygame.K_RIGHT:
                         delta = (1, 0)
                         self.hero.collisionHandler(self, delta)
+
                     if event.key == pygame.K_UP:
                         delta = (0, -1)
                         self.hero.collisionHandler(self, delta)
+                        ani_sprite.moveUp = True
+                        ani_sprite.moveDown = False
+                        if not moveLeft and not moveRight:
+                            ani_sprite.direction = UP
                     if event.key == pygame.K_DOWN:
                         delta = (0, 1)
                         self.hero.collisionHandler(self, delta)
