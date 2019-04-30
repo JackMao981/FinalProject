@@ -69,7 +69,6 @@ class Map:
 
     def wall_placer(self, rogue):
         """place walls wherever there isn't floor"""
-        for x in range(-1,21):
         for x in range(-1, 21):
             for y in range(-1, 21):
                 overlap = False

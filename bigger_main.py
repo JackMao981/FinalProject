@@ -42,12 +42,12 @@ class RogueLike():
             "TILE_ENEMY": pygame.sprite.Group()}
 
         hit_sound = pygame.mixer.Sound("sharp_hit.ogg")
-        move_sound = pygame.mixer.Sound("step.ogg")
-        damage_sound = pygame.mixer.Sound("damage.ogg")
-        dead_sound = pygame.mixer.Sound("dead.ogg")
-        panic_sound = pygame.mixer.Sound("panic.ogg")
+        #move_sound = pygame.mixer.Sound("step.ogg")
+        #damage_sound = pygame.mixer.Sound("damage.ogg")
+        #dead_sound = pygame.mixer.Sound("dead.ogg")
+        #panic_sound = pygame.mixer.Sound("panic.ogg")
 
-    def spriteRender(self):
+    def sprite_render(self):
         """Reblit all sprites onto the main screen"""
 
         # fill the screen with bg color
@@ -78,11 +78,13 @@ class RogueLike():
         max_health = self.hero.characteristics.max_health
         x_location = 10
         y_location = 10
+        ratio = curr_health / max_health
         height = 150
-        total_bar = pygame.Rect(x_location, y_location,height, height)
-        pygame.draw.rect(self.screen,(255,255,255),total_bar)
-        curr_bar = pygame.Rect(x_location+5,y_location+5 + (1-curr_health / max_health) * (height - 10), height-10, curr_health / max_health * (height - 10))
-        pygame.draw.rect(self.screen,(255,0,0),curr_bar)
+        total_bar = pygame.Rect(x_location, y_location, height, height)
+        pygame.draw.rect(self.screen,(255, 255, 255), total_bar)
+        curr_bar = pygame.Rect(x_location + 5, y_location + 5 + (1-ratio) * (height - 10),
+                            height-10, ratio * (height - 10))
+        pygame.draw.rect(self.screen, (255, 0, 0), curr_bar)
         if curr_health<50:
             panic_sound.play(-1)
         else:
@@ -168,36 +170,21 @@ class RogueLike():
                         delta = (0, -1)
                     if event.key == pygame.K_DOWN:
                         delta = (0, 1)
-<<<<<<< HEAD
                     self.hero.collisionHandler(self, delta)
-            self.spriteRender
+                    # quit the game when the hero's health is 0
+                    dead = self.hero.characteristics.curr_health
+                    while dead<=0:
+                        deadmau = pygame.image.load('./sprites/sprite_png/deadmau.png')
+                        display_surface = pygame.display.set_mode((0, 0))
+                        display_surface.blit(deadmau, (0, 0))
+                        pygame.display.update()
+                        events = pygame.event.get()
+                        for event in events:
+                            if event.key == pygame.K_q:
+                                pygame.quit()
+                                return
 
-            # quit the game when the hero's health is 0
-            if(self.hero.characteristics.curr_health <= 0):
-                print("You died.")
-                #todo: end screen
-                dead_sound.play()
-                run = False
-=======
-                        self.hero.collisionHandler(self, delta)
-                        # quit the game when the hero's health is 0
-                        if self.hero.characteristics.curr_health <= 0:
-                            dead = True
-                            while dead:
-                                deadmau = pygame.image.load('./sprites/sprite_png/deadmau.png')
-                                display_surface = pygame.display.set_mode((0, 0))
-                                display_surface.blit(deadmau, (0, 0))
-                                pygame.display.update()
-                                events = pygame.event.get()
-                                for event in events:
-                                    if event.key == pygame.K_q:
-                                        pygame.quit()
-                                        return
-
-
-
-            self.spriteRender()
->>>>>>> b9acdc59db8628622a04d86fb83b21ab92fccd5a
+            self.sprite_render()
         pygame.quit()
 
 

@@ -13,10 +13,6 @@ WALL_TILE = [(0, 0)]
 FLOOR_TILE = [(1, 0)]
 PLAYER_TILE = [(2, 0)]
 DOOR_TILE = [(3, 0)]
-ITEM_POTION_TILE = [(4,0)]
-ITEM_HEART_TILE = [(5,0)]
-ITEM_SHEILD_TILE = [(0,2)]
-ENEMY_TILE = [(0,1)]
 ITEM_POTION_TILE = [(4, 0)]
 ITEM_HEART_TILE = [(1, 1)]
 ITEM_SHIELD_TILE = [(2, 1)]
@@ -339,13 +335,11 @@ class ItemSprite(pygame.sprite.Sprite):
         # uses list comprehension to grab
         # locations from my const and fetches
         # images for those locations
-        list_of_items = [Potion(), Sheild(), Heart()]
         list_of_items = [Potion(), Shield(), Heart()]
         rand = random.randint(0,2)
         if(rand == 0):
             self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in ITEM_POTION_TILE]
         elif(rand == 1):
-            self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in ITEM_SHEILD_TILE]
             self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in ITEM_SHIELD_TILE]
         elif(rand == 2):
             self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in ITEM_HEART_TILE]
@@ -453,8 +447,6 @@ class Item:
 class Potion(Item):
     def __init__(self, modifiers = {"health":80}, name = "Doran's Shield"):
         """
-        creates Doran_sheild, an item that modifies max_health and armor
-        Doran sheild be initialized by its default values only
         creates Doran_shield, an item that modifies max_health and armor
         Doran shield be initialized by its default values only
         modifiers: dictionary, stores the attributes of the item
@@ -464,12 +456,9 @@ class Potion(Item):
         self.modifiers = modifiers
         self.name = name
 
-class Sheild(Item):
 class Shield(Item):
     def __init__(self, modifiers = {"armor": 10}, name = "Doran's Shield"):
         """
-        creates Doran_sheild, an item that modifies max_health and armor
-        Doran sheild be initialized by its default values only
         creates Doran_shield, an item that modifies max_health and armor
         Doran shield be initialized by its default values only
         modifiers: dictionary, stores the attributes of the item
@@ -482,8 +471,6 @@ class Shield(Item):
 class Heart(Item):
     def __init__(self, modifiers = {"max_health": 10}, name = "Doran's Shield"):
         """
-        creates Doran_sheild, an item that modifies max_health and armor
-        Doran sheild be initialized by its default values only
         creates Doran_shield, an item that modifies max_health and armor
         Doran shield be initialized by its default values only
         modifiers: dictionary, stores the attributes of the item
