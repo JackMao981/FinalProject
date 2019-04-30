@@ -146,7 +146,7 @@ class RogueLike():
             #self.hero.characteristics.print_health()
             keys = pygame.key.get_pressed()
             time.sleep(.05)
-            #llision handler changes reaction based on
+            # collision handler changes reaction based on
             # touched tile. Delta change according to
             # the direction pressed and is the desired
             # movement in units of tiles
@@ -173,13 +173,12 @@ class RogueLike():
                     display_surface.blit(deadmau, (0, 0))
                     pygame.display.update()
                     events = pygame.event.get()
-                    print("DEAD")
-                    print(events)
                     for event in events:
-                        if event.type == pygame.K_q:
+                        if event.key == pygame.K_q:
                             pygame.quit()
                             return
-                        if event.type == pygame.K_SPACE:
+                        if event.key == pygame.K_SPACE:
+                            pygame.quit()
                             self.gameloop()
 
 

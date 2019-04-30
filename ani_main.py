@@ -160,16 +160,15 @@ class RogueLike():
                                 display_surface = pygame.display.set_mode((0, 0))
                                 display_surface.blit(deadmau, (0, 0))
                                 pygame.display.update()
-                                events = pygame.event.get()
-                                for event in events:
-                                    if event.key == pygame.K_q:
-                                        pygame.quit()
-                                        return
+                                if event.key == pygame.K_q:
+                                    pygame.quit()
+                                    return
+                                if event.key == pygame.K_SPACE:
+                                    
 
 
             self.spriteRender()
         pygame.quit()
-
 
 
 
