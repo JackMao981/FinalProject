@@ -134,6 +134,7 @@ class RogueLike():
                 if event.type == pygame.MOUSEBUTTONUP:
                     start = False
                     run = True
+                    revive = False
         # run the game loop until program is quit
         while run:
             # fetch all events such as keypressed
@@ -146,7 +147,7 @@ class RogueLike():
             #self.hero.characteristics.print_health()
             keys = pygame.key.get_pressed()
             time.sleep(.05)
-            #llision handler changes reaction based on
+            # collision handler changes reaction based on
             # touched tile. Delta change according to
             # the direction pressed and is the desired
             # movement in units of tiles
@@ -164,27 +165,33 @@ class RogueLike():
                 self.hero.collisionHandler(self, delta)
                 # quit the game when the hero's health is 0
             if self.hero.characteristics.curr_health <= 0:
+                run = False
                 display_surface = pygame.display.set_mode((0, 0))
                 fade = pygame.image.load("./sprites/sprite_png/fade.png")
                 display_surface.blit(fade, (0, 0))
-                dead = True
                 display_surface = pygame.display.set_mode((0, 0))
                 display_surface.blit(deadmau, (0, 0))
                 pygame.display.update()
+                dead = True
                 while dead:
+                    print("dead")
                     events = pygame.event.get()
-                    print("DEAD")
-                    print(events)
-                    if keys[pygame.K_q]:
-                        pygame.quit()
-                    if keys[pygame.K_SPACE]:
-                        self.gameloop()
+                    for event in events:
+                        print(event)
+                        if event.key == pygame.K_q:
+                            print("quit")
+                            pygame.quit()
+                            return
+                        if event.key == pygame.K_SPACE:
+                            revive = True
+                            print("revive")
+                            dead = False
 
 
             self.spriteRender()
-        pygame.quit()
-
-
+        if revive:
+            print("revived")
+            self.gameloop()
 
 
 if __name__ == "__main__":
