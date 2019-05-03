@@ -1,5 +1,6 @@
 import pygame
 import random
+import pyganim
 
 # Define where objects are in our sprite file.
 # Each sprite is 16x16 pixels in size, and the
@@ -23,12 +24,25 @@ TILE_PATH = "sprites/master.bmp"
 # has to be different bc different size
 NEKO_PATH = "sprites/nekoanisheet.bmp"
 
-#WIP for Hero movement
+# WIP for Hero movement
 front_standing = PLAYER_TILE
 back_standing = [(5, 3)]
 left_standing = pygame.transform.flip(front_standing, True, False)
 
+animTypes = 'back_walk front_walk left_walk'.split()
+animObjs = {}
+for animType in animTypes:
+    imagesAndDurations = [(TILE_PATH % (animType, str(num).rjust(3, '0')), 0.1) for num in range(6)]
+    animObjs[animType] = pyganim.PygAnimation(imagesAndDurations)
 
+# sets left walk
+animObjs['left_walk'] = animObjs['right_walk'].getCopy()
+animObjs['left_walk'].flip(True, False)
+animObjs['left_walk'].makeTransformsPermanent()
+
+# move conductor
+moveConductor = pygamim.PygConductor(animObjs)
+direction = DOWN
 
 class SpriteHandler:
     """Sprite class to handle common sprite operations for sprites animations"""
