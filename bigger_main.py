@@ -129,11 +129,34 @@ class RogueLike():
             display_surface = pygame.display.set_mode((0, 0))
             display_surface.blit(startscreen, (0, 0))
             pygame.display.update()
+            time.sleep(1)
             events = pygame.event.get()
             for event in events:
                 if event.type == pygame.MOUSEBUTTONUP:
                     start = False
-                    run = True
+                    intro = True
+        #introduction screen
+        while intro:
+            introwords1 = pygame.image.load("./sprites/sprite_png/storywords1.png")
+            introwords2 = pygame.image.load("./sprites/sprite_png/storywords2.png")
+            introwords3 = pygame.image.load("./sprites/sprite_png/storywords3.png")
+            introwords4 = pygame.image.load("./sprites/sprite_png/storywords4.png")
+            introwords = [introwords1, introwords2, introwords3, introwords4]
+            display_surface = pygame.display.set_mode((0, 0))
+            display_surface.blit(introwords1, (0, 0))
+            pygame.display.update()
+            events = pygame.event.get()
+            for event in events:
+                if event.type == pygame.MOUSEBUTTONUP:
+                    for i in range(len(introwords)):
+                        display_surface.blit(introwords[i], (0, 0))
+                        i += 1
+                        pygame.display.update()
+                        if i >= 3:
+                            intro = False
+                            run = True
+
+
         # run the game loop until program is quit
         while run:
             # fetch all events such as keypressed

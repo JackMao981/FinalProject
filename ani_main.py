@@ -164,7 +164,7 @@ class RogueLike():
                                     pygame.quit()
                                     return
                                 if event.key == pygame.K_SPACE:
-                                    
+
 
 
             self.spriteRender()
