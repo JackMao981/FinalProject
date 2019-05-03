@@ -186,12 +186,13 @@ class RogueLike():
                             revive = True
                             print("revive")
                             dead = False
+                            pygame.quit()
 
 
             self.spriteRender()
         if revive:
             print("revived")
-            self.gameloop()
+            self.__init__()
 
 
 if __name__ == "__main__":
