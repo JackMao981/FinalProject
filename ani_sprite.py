@@ -27,12 +27,13 @@ NEKO_PATH = "sprites/nekoanisheet.bmp"
 # WIP for Hero movement
 front_standing = PLAYER_TILE
 back_standing = [(5, 3)]
-left_standing = pygame.transform.flip(front_standing, True, False)
+#left_standing = pygame.transform.flip(front_standing, True, False)
 
 animTypes = 'back_walk front_walk left_walk'.split()
 animObjs = {}
 for animType in animTypes:
-    imagesAndDurations = [(TILE_PATH % (animType, str(num).rjust(3, '0')), 0.1) for num in range(6)]
+    imagesAndDurations = [(TILE_PATH + "/" + animType + str(num).rjust(3, '0'), (1)) for num in range(6)]
+    print(imagesAndDurations)
     animObjs[animType] = pyganim.PygAnimation(imagesAndDurations)
 
 # sets left walk
@@ -42,7 +43,7 @@ animObjs['left_walk'].makeTransformsPermanent()
 
 # move conductor
 moveConductor = pygamim.PygConductor(animObjs)
-direction = DOWN
+direction = "DOWN"
 
 class SpriteHandler:
     """Sprite class to handle common sprite operations for sprites animations"""
@@ -264,6 +265,21 @@ class HeroSprite(pygame.sprite.Sprite):
        delta: tuple with dx and dy, respectively"""
        self.pos.x += delta[0]
        self.pos.y += delta[1]
+
+    def animation_handler(self, direction):
+        #depending on the delta, animate it.
+        walk_style = '{direction}_walk'.format(direction=direction)
+        if walk_style=='left_walk':
+            self.left_walk()
+        if walk_style == 'right_walk':
+            self.right_walk()
+        if walk_style=="down_walk":
+            self.right_walk()
+        if walk_style=='up_walk':
+            self.up_walk()
+        if walk_style=='stationary_walk':
+            self.bop()
+
 
 
     def collide(self, layer, delta):

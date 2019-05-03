@@ -11,8 +11,8 @@ import sys
 import os
 import math
 import random
-import ani_map as map
-from ani_map import Map
+import bigger_map as map
+from bigger_map import Map
 import ani_sprite as sprite
 from ani_sprite import SpriteHandler, WallSprite, FloorSprite, HeroSprite, Characteristics
 
@@ -133,24 +133,16 @@ class RogueLike():
                     # movement in units of tiles
                     if keys[pygame.K_LEFT]:
                         delta = (-1, 0)
-                        self.hero.collisionHandler(self, delta)
-                        ani_sprite.moveLeft = True
-                        ani_sprite.moveRight = False
-                        if not ani_sprite.moveUp and not ani_sprite.moveDown:
-                            ani_sprite.direction = Left
+
                     if event.key == pygame.K_RIGHT:
                         delta = (1, 0)
-                        self.hero.collisionHandler(self, delta)
 
                     if event.key == pygame.K_UP:
                         delta = (0, -1)
-                        self.hero.collisionHandler(self, delta)
-                        ani_sprite.moveUp = True
-                        ani_sprite.moveDown = False
-                        if not moveLeft and not moveRight:
-                            ani_sprite.direction = UP
+
                     if event.key == pygame.K_DOWN:
                         delta = (0, 1)
+<<<<<<< HEAD
                         self.hero.collisionHandler(self, delta)
                         # quit the game when the hero's health is 0
                         if self.hero.characteristics.curr_health <= 0:
@@ -164,6 +156,24 @@ class RogueLike():
                                     pygame.quit()
                                     return
                                 if event.key == pygame.K_SPACE:
+=======
+
+                    self.hero.collisionHandler(self, delta)
+
+                    # quit the game when the hero's health is 0
+                    if self.hero.characteristics.curr_health <= 0:
+                        dead = True
+                        while dead:
+                            deadmau = pygame.image.load('./sprites/sprite_png/deadmau.png')
+                            display_surface = pygame.display.set_mode((0, 0))
+                            display_surface.blit(deadmau, (0, 0))
+                            pygame.display.update()
+                            if event.key == pygame.K_q:
+                                pygame.quit()
+                                return
+                            if event.key == pygame.K_SPACE:
+                                pass
+>>>>>>> b5a3239b72489b9bc3c23ac1e191580a2658a492
 
 
 
