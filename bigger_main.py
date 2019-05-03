@@ -178,15 +178,15 @@ class RogueLike():
                     events = pygame.event.get()
                     for event in events:
                         print(event)
-                        if event.key == pygame.K_q:
-                            print("quit")
-                            pygame.quit()
-                            return
-                        if event.key == pygame.K_SPACE:
-                            revive = True
-                            print("revive")
-                            dead = False
-                            pygame.quit()
+                        if event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_q:
+                                print("quit")
+                                pygame.quit()
+                                return
+                            if event.key == pygame.K_SPACE:
+                                revive = True
+                                print("revive")
+                                dead = False
 
 
             self.spriteRender()
