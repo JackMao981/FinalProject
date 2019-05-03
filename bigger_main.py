@@ -191,9 +191,9 @@ class RogueLike():
 
             self.spriteRender()
         if revive:
+            pygame.quit()
             print("revived")
-            self.__init__()
-
+            RogueLike().gameloop()
 
 if __name__ == "__main__":
     # create the main object and run the loop function
