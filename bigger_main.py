@@ -136,27 +136,32 @@ class RogueLike():
                     start = False
                     revive = False
                     intro = True
-        #introduction screen
+        # introduction screen
+        current_image = 0
+        introwords1 = pygame.image.load("./sprites/sprite_png/storywords1.png")
+        introwords2 = pygame.image.load("./sprites/sprite_png/storywords2.png")
+        introwords3 = pygame.image.load("./sprites/sprite_png/storywords3.png")
+        introwords4 = pygame.image.load("./sprites/sprite_png/storywords4.png")
+        intropic1 = pygame.image.load("./sprites/sprite_png/intro1.png")
+        intropic2 = pygame.image.load("./sprites/sprite_png/intro2.png")
+        intropic3 = pygame.image.load("./sprites/sprite_png/intro3.png")
+        intropic4 = pygame.image.load("./sprites/sprite_png/intro4.png")
+        instructions = pygame.image.load("./sprites/sprite_png/instructions.png")
+        itemguide = pygame.image.load("./sprites/sprite_png/itemguide.png")
+        introorder = [introwords1, intropic1, introwords2, intropic2, introwords3, intropic3, introwords4, intropic4
+                , instructions, itemguide]
         while intro:
-            introwords1 = pygame.image.load("./sprites/sprite_png/storywords1.png")
-            introwords2 = pygame.image.load("./sprites/sprite_png/storywords2.png")
-            introwords3 = pygame.image.load("./sprites/sprite_png/storywords3.png")
-            introwords4 = pygame.image.load("./sprites/sprite_png/storywords4.png")
-            introwords = [introwords1, introwords2, introwords3, introwords4]
             display_surface = pygame.display.set_mode((0, 0))
-            display_surface.blit(introwords1, (0, 0))
-            pygame.display.update()
             events = pygame.event.get()
             for event in events:
-                if event.type == pygame.MOUSEBUTTONUP:
-                    for i in range(len(introwords)):
-                        display_surface.blit(introwords[i], (0, 0))
-                        i += 1
-                        pygame.display.update()
-                        if i >= 3:
-                            intro = False
-                            run = True
-
+                time.sleep(.1)
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    current_image += 1
+            display_surface.blit(introorder[current_image], (0, 0))
+            pygame.display.update()
+            if current_image >= 9:
+                intro = False
+                run = True
         # run the game loop until program is quit
         while run:
             # fetch all events such as keypressed
