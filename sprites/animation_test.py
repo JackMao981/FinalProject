@@ -89,6 +89,62 @@ while True:
 
 """
 """
+# Mouse Front Walk
+
+pygame.init()
+windowSurface = pygame.display.set_mode((400, 400))
+pygame.display.set_caption('Mouse Walking Front Demo')
+
+mouse_front_walk = pyganim.PygAnimation([('/home/lee/FinalProject/sprites/sprite_png/scaledmousefront0.png', 400),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmousefront0.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmousefront1.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmousefront0.png', 200)])
+mouse_back_static.play()
+
+mainClock = pygame.time.Clock()
+BGCOLOR = (100, 50, 50)
+while True:
+    windowSurface.fill(BGCOLOR)
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
+
+
+    mouse_front_walk.blit(windowSurface, (0, 0))
+    pygame.display.update()
+
+"""
+"""
+# Mouse Back Walk
+
+pygame.init()
+windowSurface = pygame.display.set_mode((400, 400))
+pygame.display.set_caption('Mouse Walking Front Demo')
+
+mouse_back_walk = pyganim.PygAnimation([('/home/lee/FinalProject/sprites/sprite_png/scaledmouseback0.png', 400),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmouseback0.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmouseback1.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmouseback0.png', 200)])
+mouse_back_static.play()
+
+mainClock = pygame.time.Clock()
+BGCOLOR = (100, 50, 50)
+while True:
+    windowSurface.fill(BGCOLOR)
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
+
+
+    mouse_back_walk.blit(windowSurface, (0, 0))
+    pygame.display.update()
+
+"""
+
+
+"""
 # Enemy
 
 pygame.init()

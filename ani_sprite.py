@@ -27,7 +27,23 @@ NEKO_PATH = "sprites/nekoanisheet.bmp"
 # WIP for Hero movement
 front_standing = PLAYER_TILE
 back_standing = [(5, 3)]
-#left_standing = pygame.transform.flip(front_standing, True, False)
+# left_standing = pygame.transform.flip(front_standing, True, False)
+
+# pyganim animation load order
+mouse_front_static = pyganim.PygAnimation([('../sprites/sprite_png/scaledmouse0.png', 600),
+                                ('../sprites/sprite_png/scaledmousefrontstatic1.png', 200),
+                                ('../sprites/sprite_png/scaledmousefrontstatic2.png', 200),
+                                ('../sprites/sprite_png/scaledmousefrontstatic1.png', 200)])
+mouse_back_static = pyganim.PygAnimation([('/home/lee/FinalProject/sprites/sprite_png/scaledmouseback0.png', 400),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmousebacks0.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmousebacks1.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmousebacks0.png', 200)])
+enemy = pyganim.PygAnimation([('/home/lee/FinalProject/sprites/sprite_png/scaledenemy0.png', 400),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledenemy1.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledenemy2.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledenemy1.png', 200)])
+
+
 
 animTypes = 'back_walk front_walk left_walk'.split()
 animObjs = {}
@@ -267,7 +283,7 @@ class HeroSprite(pygame.sprite.Sprite):
        self.pos.y += delta[1]
 
     def animation_handler(self, direction):
-        #depending on the delta, animate it.
+        # depending on the delta, animate it.
         walk_style = '{direction}_walk'.format(direction=direction)
         if walk_style=='left_walk':
             self.left_walk()
@@ -277,7 +293,7 @@ class HeroSprite(pygame.sprite.Sprite):
             self.right_walk()
         if walk_style=='up_walk':
             self.up_walk()
-        if walk_style=='stationary_walk':
+        if walk_style=='mouse_front_static':
             self.bop()
 
 
