@@ -83,6 +83,7 @@ class RogueLike():
 
     def generate_level(self):
         """Delete all tiles in desired layer"""
+
         # fade in
         display_surface = pygame.display.set_mode((0, 0))
         fade = pygame.image.load("./sprites/sprite_png/fade.png")
@@ -160,6 +161,7 @@ class RogueLike():
             display_surface.blit(introorder[current_image], (0, 0))
             pygame.display.update()
             if current_image >= 9:
+                time.sleep(2)
                 intro = False
                 run = True
         # run the game loop until program is quit

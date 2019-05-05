@@ -6,8 +6,8 @@ import sys
 import time
 import pyganim
 
-"""
-Count Neko
+
+# Count Neko
 
 pygame.init()
 windowSurface = pygame.display.set_mode((400, 400))
@@ -31,7 +31,7 @@ while True:
 
     count_neko.blit(windowSurface, (0, 0))
     pygame.display.update()
-"""
+
 
 """
 # Mouse Front Static
@@ -123,7 +123,7 @@ while True:
 
 
 """
-
+"""
 This is a movement test. Will implement later. 
 
 # define some constants
