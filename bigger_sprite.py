@@ -187,11 +187,16 @@ class HeroSprite(pygame.sprite.Sprite):
         self.rect = self.tile.get_rect()
         self.pos = pygame.math.Vector2(position[0], position[1])
         self.rect.topleft = self.pos * 256
+        self.hit_sound = pygame.mixer.Sound('Sounds/sword.wav')
+        self.item_sound = pygame.mixer.Sound('Sounds/pickup.wav')
+        #self.enemy_sound = pygame.mixer.Sound('Sounds/meow.wav')
+        self.game_over_sound = pygame.mixer.Sound('Sounds/evil_laugh.wav')
+        self.door_sound = pygame.mixer.Sound('Sounds/checkpoint.wav')
 
     def update(self):
-       """handles sprite rect location in terms of pixels"""
-       self.rect.x = self.pos.x * 256
-       self.rect.y = self.pos.y * 256
+        """handles sprite rect location in terms of pixels"""
+        self.rect.x = self.pos.x * 256
+        self.rect.y = self.pos.y * 256
 
     def posReset(self, position):
         """reset the position of the player on level change
@@ -203,10 +208,10 @@ class HeroSprite(pygame.sprite.Sprite):
         self.rect.topleft = self.pos * 256
 
     def move(self, delta):
-       """handles tiles
-       delta: tuple with dx and dy, respectively"""
-       self.pos.x += delta[0]
-       self.pos.y += delta[1]
+        """handles tiles
+        delta: tuple with dx and dy, respectively"""
+        self.pos.x += delta[0]
+        self.pos.y += delta[1]
 
 
     def collide(self, layer, delta):
@@ -226,6 +231,7 @@ class HeroSprite(pygame.sprite.Sprite):
         for tile in layer:
             if (tile.pos.x == self.pos.x + delta[0] and tile.pos.y == self.pos.y + delta[1]):
                 print("You're done!")
+                self.door_sound.play()
                 return True
         return False
 
@@ -245,8 +251,9 @@ class HeroSprite(pygame.sprite.Sprite):
             print("item get", self.collide(rogue.tile_layers["TILE_ITEM"], delta).item.name)
             self.characteristics.add_item(self.collide(rogue.tile_layers["TILE_ITEM"], delta).item)
             self.collide(rogue.tile_layers["TILE_ITEM"], delta).kill()
+            self.item_sound.play()
         if self.collide(rogue.tile_layers["TILE_WALL"], delta):
-            hit_sound.play()
+            self.hit_sound.play()
         if not self.collide(rogue.tile_layers["TILE_WALL"], delta) and not self.collide(rogue.tile_layers["TILE_ENEMY"], delta) :
             self.move(delta)
 
@@ -255,16 +262,15 @@ class HeroSprite(pygame.sprite.Sprite):
         Handles the subtraction of hero's and enemy's current hp
         enemy: a tile instance of the enemy
         """
-        enemy_sound = pygame.mixer.Sound('purr.ogg')
         hero_damage_taken = self.characteristics.damage_taken(enemy.characteristics.damage_output())
         enemy_damage_taken = self.characteristics.damage_taken(self.characteristics.damage_output())
         self.characteristics.curr_health -= hero_damage_taken
         enemy.characteristics.curr_health -= enemy_damage_taken
         if (enemy.characteristics.curr_health <= 0):
-            self.enemy_sound.play()
+            #self.enemy_sound.play()
             enemy.kill()
         print("I'm attacking")
-        self.enemy_sound.play()
+        #self.enemy_sound.play()
         self.hit_sound.play()
 
 class EnemySprite(pygame.sprite.Sprite):
@@ -290,9 +296,9 @@ class EnemySprite(pygame.sprite.Sprite):
         self.rect.topleft = self.pos * 256
 
     def update(self):
-       """handles sprite rect location in terms of pixels"""
-       self.rect.x = self.pos.x * 256
-       self.rect.y = self.pos.y * 256
+        """handles sprite rect location in terms of pixels"""
+        self.rect.x = self.pos.x * 256
+        self.rect.y = self.pos.y * 256
 
     def posReset(self, position):
         """reset the position of the player on level change
@@ -304,10 +310,10 @@ class EnemySprite(pygame.sprite.Sprite):
         self.rect.topleft = self.pos * 256
 
     def move(self, delta):
-       """handles tiles
-       delta: tuple with dx and dy, respectively"""
-       self.pos.x += delta[0]
-       self.pos.y += delta[1]
+        """handles tiles
+        delta: tuple with dx and dy, respectively"""
+        self.pos.x += delta[0]
+        self.pos.y += delta[1]
 
 #    def collide(self, layer, delta):
 #        """check if character will collide with the given layer:
@@ -372,6 +378,8 @@ class Characteristics:
         self.spd = spd
         self.true_damage = true_damage
         self.items = items
+        self.item_sound = pygame.mixer.Sound('Sounds/pickup.wav')
+        self.damage_sound = pygame.mixer.Sound('Sounds/squeaka.wav')
 
 
     # a function used to check your current health
@@ -411,6 +419,7 @@ class Characteristics:
         true_damage = input_damage[1]
         if (self.armor <= 0):
             return (2 - (100/(100-self.armor))) * damage + true_damage
+            self.damage_sound.play()
         else:
             return (100/(100+self.armor)) * damage + true_damage
 
@@ -434,6 +443,7 @@ class Characteristics:
             if (key == "mana"):
                 self.mana += item.modifiers[key]
         self.items.append(item.name)
+        self.item_sound.play()
 
 class Item:
     def __init__(self, modifiers, name):

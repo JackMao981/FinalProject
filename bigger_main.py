@@ -41,11 +41,6 @@ class RogueLike():
             "TILE_ITEM": pygame.sprite.Group(),
             "TILE_ENEMY": pygame.sprite.Group()}
 
-        hit_sound = pygame.mixer.Sound("sharp_hit.ogg")
-        #move_sound = pygame.mixer.Sound("step.ogg")
-        #damage_sound = pygame.mixer.Sound("damage.ogg")
-        #dead_sound = pygame.mixer.Sound("dead.ogg")
-        #panic_sound = pygame.mixer.Sound("panic.ogg")
 
     def sprite_render(self):
         """Reblit all sprites onto the main screen"""
@@ -85,10 +80,12 @@ class RogueLike():
         curr_bar = pygame.Rect(x_location + 5, y_location + 5 + (1-ratio) * (height - 10),
                             height-10, ratio * (height - 10))
         pygame.draw.rect(self.screen, (255, 0, 0), curr_bar)
+        """
         if curr_health<50:
             panic_sound.play(-1)
         else:
             panic_sound.stop()
+            """
 
 
     def generate_level(self):
@@ -161,7 +158,7 @@ class RogueLike():
                     # touched tile. Delta change according to
                     # the direction pressed and is the desired
                     # movement in units of tiles
-                    move_sound.play()
+                    #move_sound.play()
                     if event.key == pygame.K_LEFT:
                         delta = (-1, 0)
                     if event.key == pygame.K_RIGHT:
