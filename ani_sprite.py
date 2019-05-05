@@ -30,18 +30,32 @@ back_standing = [(5, 3)]
 # left_standing = pygame.transform.flip(front_standing, True, False)
 
 # pyganim animation load order
+# to have them work call with animation.play()
 mouse_front_static = pyganim.PygAnimation([('../sprites/sprite_png/scaledmouse0.png', 600),
                                 ('../sprites/sprite_png/scaledmousefrontstatic1.png', 200),
                                 ('../sprites/sprite_png/scaledmousefrontstatic2.png', 200),
                                 ('../sprites/sprite_png/scaledmousefrontstatic1.png', 200)])
+mouse_front_walk = pyganim.PygAnimation([('/home/lee/FinalProject/sprites/sprite_png/scaledmousefront0.png', 400),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmousefront0.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmousefront1.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmousefront0.png', 200)])
 mouse_back_static = pyganim.PygAnimation([('/home/lee/FinalProject/sprites/sprite_png/scaledmouseback0.png', 400),
                                 ('/home/lee/FinalProject/sprites/sprite_png/scaledmousebacks0.png', 200),
                                 ('/home/lee/FinalProject/sprites/sprite_png/scaledmousebacks1.png', 200),
                                 ('/home/lee/FinalProject/sprites/sprite_png/scaledmousebacks0.png', 200)])
+mouse_back_walk = pyganim.PygAnimation([('/home/lee/FinalProject/sprites/sprite_png/scaledmouseback0.png', 400),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmouseback0.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmouseback1.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmouseback0.png', 200)])
 enemy = pyganim.PygAnimation([('/home/lee/FinalProject/sprites/sprite_png/scaledenemy0.png', 400),
                                 ('/home/lee/FinalProject/sprites/sprite_png/scaledenemy1.png', 200),
                                 ('/home/lee/FinalProject/sprites/sprite_png/scaledenemy2.png', 200),
                                 ('/home/lee/FinalProject/sprites/sprite_png/scaledenemy1.png', 200)])
+count_neko = pyganim.PygAnimation([('/home/lee/FinalProject/sprites/sprite_png/cn0.png', 600),
+                                ('/home/lee/FinalProject/sprites/sprite_png/cn1.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/cn2.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/cn1.png', 200)])
+
 
 
 
