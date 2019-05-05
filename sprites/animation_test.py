@@ -6,16 +6,17 @@ import sys
 import time
 import pyganim
 
+
 # Count Neko
 
 pygame.init()
-windowSurface = pygame.display.set_mode((320, 240))
+windowSurface = pygame.display.set_mode((400, 400))
 pygame.display.set_caption('Count Neko Demo')
 
-count_neko = pyganim.PygAnimation([('/home/lee/FinalProject/sprites/sprite_png/cnb0.png', 600),
-                                ('/home/lee/FinalProject/sprites/sprite_png/cnb1.png', 200),
-                                ('/home/lee/FinalProject/sprites/sprite_png/cnb2.png', 200),
-                                ('/home/lee/FinalProject/sprites/sprite_png/cnb1.png', 200)])
+count_neko = pyganim.PygAnimation([('/home/lee/FinalProject/sprites/sprite_png/cn0.png', 600),
+                                ('/home/lee/FinalProject/sprites/sprite_png/cn1.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/cn2.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/cn1.png', 200)])
 count_neko.play()
 
 mainClock = pygame.time.Clock()
@@ -28,20 +29,20 @@ while True:
             sys.exit()
 
 
-    count_neko.blit(windowSurface, (100, 50))
+    count_neko.blit(windowSurface, (0, 0))
     pygame.display.update()
 
 
 """
 # Mouse Front Static
 pygame.init()
-windowSurface = pygame.display.set_mode((320, 240))
+windowSurface = pygame.display.set_mode((400, 400))
 pygame.display.set_caption('Mouse Static Front Demo')
 
-mouse_front_static = pyganim.PygAnimation([('../sprites/sprite_png/lmf0.png', 600),
-                                ('../sprites/sprite_png/lms0.png', 200),
-                                ('../sprites/sprite_png/lms1.png', 200),
-                                ('../sprites/sprite_png/lms0.png', 200)])
+mouse_front_static = pyganim.PygAnimation([('../sprites/sprite_png/scaledmouse0.png', 600),
+                                ('../sprites/sprite_png/scaledmousefrontstatic1.png', 200),
+                                ('../sprites/sprite_png/scaledmousefrontstatic2.png', 200),
+                                ('../sprites/sprite_png/scaledmousefrontstatic1.png', 200)])
 mouse_front_static.play()
 
 mainClock = pygame.time.Clock()
@@ -54,23 +55,23 @@ while True:
             sys.exit()
 
 
-    mouse_front_static.blit(windowSurface, (100, 50))
+    mouse_front_static.blit(windowSurface, (0, 0))
     pygame.display.update()
     
-
-
 """
+
+
 """
 # Mouse Back Static
 
 pygame.init()
-windowSurface = pygame.display.set_mode((320, 240))
+windowSurface = pygame.display.set_mode((400, 400))
 pygame.display.set_caption('Mouse Static Back Demo')
 
-mouse_back_static = pyganim.PygAnimation([('/home/lee/FinalProject/sprites/sprite_png/lmb0.png', 400),
-                                ('/home/lee/FinalProject/sprites/sprite_png/lmsb0.png', 200),
-                                ('/home/lee/FinalProject/sprites/sprite_png/lmsb1.png', 200),
-                                ('/home/lee/FinalProject/sprites/sprite_png/lmsb0.png', 200)])
+mouse_back_static = pyganim.PygAnimation([('/home/lee/FinalProject/sprites/sprite_png/scaledmouseback0.png', 400),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmousebacks0.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmousebacks1.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmousebacks0.png', 200)])
 mouse_back_static.play()
 
 mainClock = pygame.time.Clock()
@@ -83,12 +84,102 @@ while True:
             sys.exit()
 
 
-    mouse_back_static.blit(windowSurface, (100, 50))
+    mouse_back_static.blit(windowSurface, (0, 0))
     pygame.display.update()
+
 """
+"""
+# Mouse Front Walk
+
+pygame.init()
+windowSurface = pygame.display.set_mode((400, 400))
+pygame.display.set_caption('Mouse Walking Front Demo')
+
+mouse_front_walk = pyganim.PygAnimation([('/home/lee/FinalProject/sprites/sprite_png/scaledmousefront0.png', 400),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmousefront0.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmousefront1.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmousefront0.png', 200)])
+mouse_back_static.play()
+
+mainClock = pygame.time.Clock()
+BGCOLOR = (100, 50, 50)
+while True:
+    windowSurface.fill(BGCOLOR)
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
+
+
+    mouse_front_walk.blit(windowSurface, (0, 0))
+    pygame.display.update()
+
+"""
+"""
+# Mouse Back Walk
+
+pygame.init()
+windowSurface = pygame.display.set_mode((400, 400))
+pygame.display.set_caption('Mouse Walking Front Demo')
+
+mouse_back_walk = pyganim.PygAnimation([('/home/lee/FinalProject/sprites/sprite_png/scaledmouseback0.png', 400),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmouseback0.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmouseback1.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmouseback0.png', 200)])
+mouse_back_static.play()
+
+mainClock = pygame.time.Clock()
+BGCOLOR = (100, 50, 50)
+while True:
+    windowSurface.fill(BGCOLOR)
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
+
+
+    mouse_back_walk.blit(windowSurface, (0, 0))
+    pygame.display.update()
 
 """
 
+
+"""
+# Enemy
+
+pygame.init()
+windowSurface = pygame.display.set_mode((400, 400))
+pygame.display.set_caption('Mouse Static Back Demo')
+
+enemy = pyganim.PygAnimation([('/home/lee/FinalProject/sprites/sprite_png/scaledenemy0.png', 400),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledenemy1.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledenemy2.png', 200),
+                                ('/home/lee/FinalProject/sprites/sprite_png/scaledenemy1.png', 200)])
+enemy.play()
+
+mainClock = pygame.time.Clock()
+BGCOLOR = (100, 50, 50)
+while True:
+    windowSurface.fill(BGCOLOR)
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
+
+
+    enemy.blit(windowSurface, (0, 0))
+    pygame.display.update()
+
+"""
+
+"""
+
+
+
+
+
+"""
+"""
 This is a movement test. Will implement later. 
 
 # define some constants

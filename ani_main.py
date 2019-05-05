@@ -13,8 +13,8 @@ import math
 import random
 import bigger_map as map
 from bigger_map import Map
-import bigger_sprite as sprite
-from bigger_sprite import SpriteHandler, WallSprite, FloorSprite, HeroSprite, Characteristics
+import ani_sprite as sprite
+from ani_sprite import SpriteHandler, WallSprite, FloorSprite, HeroSprite, Characteristics
 
 # Game Class, for handling game loop eventually
 class RogueLike():
@@ -83,8 +83,8 @@ class RogueLike():
             for tile in self.tile_layers[layer]:
                 tile.kill()
 
-        #characteristics = Characteristics(616,616,350,66,0,36,1.6, [])
-        #self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10,10), characteristics)
+        # characteristics = Characteristics(616,616,350,66,0,36,1.6, [])
+        # self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10,10), characteristics)
         self.hero.posReset((10, 10))
         self.map = Map()
 
@@ -100,7 +100,7 @@ class RogueLike():
         self.map.generate(self)
 
         # create the hero!
-        characteristics = Characteristics(616,616,350, 350, 66,0,36,1.6, [])
+        characteristics = Characteristics(616, 616, 350, 350, 66, 0, 36, 1.6, [])
         self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10, 10), characteristics)
 
         # starts the game
@@ -122,6 +122,7 @@ class RogueLike():
             for event in events:
                 if event.type == pygame.QUIT:
                     run = False
+                keys = pygame.ket.get_pressed()
                 if event.type == pygame.KEYDOWN:
                     # print the health on every turn
                     #self.hero.characteristics.print_health()
@@ -130,17 +131,18 @@ class RogueLike():
                     # touched tile. Delta change according to
                     # the direction pressed and is the desired
                     # movement in units of tiles
-                    if event.key == pygame.K_LEFT:
+                    if keys[pygame.K_LEFT]:
                         delta = (-1, 0)
-                        self.hero.collisionHandler(self, delta)
+
                     if event.key == pygame.K_RIGHT:
                         delta = (1, 0)
-                        self.hero.collisionHandler(self, delta)
+
                     if event.key == pygame.K_UP:
                         delta = (0, -1)
-                        self.hero.collisionHandler(self, delta)
+
                     if event.key == pygame.K_DOWN:
                         delta = (0, 1)
+<<<<<<< HEAD
                         self.hero.collisionHandler(self, delta)
                         # quit the game when the hero's health is 0
                         if self.hero.characteristics.curr_health <= 0:
@@ -150,16 +152,33 @@ class RogueLike():
                                 display_surface = pygame.display.set_mode((0, 0))
                                 display_surface.blit(deadmau, (0, 0))
                                 pygame.display.update()
-                                events = pygame.event.get()
-                                for event in events:
-                                    if event.key == pygame.K_q:
-                                        pygame.quit()
-                                        return
+                                if event.key == pygame.K_q:
+                                    pygame.quit()
+                                    return
+                                if event.key == pygame.K_SPACE:
+=======
+
+                    self.hero.collisionHandler(self, delta)
+
+                    # quit the game when the hero's health is 0
+                    if self.hero.characteristics.curr_health <= 0:
+                        dead = True
+                        while dead:
+                            deadmau = pygame.image.load('./sprites/sprite_png/deadmau.png')
+                            display_surface = pygame.display.set_mode((0, 0))
+                            display_surface.blit(deadmau, (0, 0))
+                            pygame.display.update()
+                            if event.key == pygame.K_q:
+                                pygame.quit()
+                                return
+                            if event.key == pygame.K_SPACE:
+                                pass
+>>>>>>> b5a3239b72489b9bc3c23ac1e191580a2658a492
+
 
 
             self.spriteRender()
         pygame.quit()
-
 
 
 
