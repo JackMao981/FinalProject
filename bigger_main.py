@@ -15,6 +15,7 @@ import bigger_map as map
 from bigger_map import Map
 import bigger_sprite as sprite
 from bigger_sprite import SpriteHandler, WallSprite, FloorSprite, HeroSprite, Characteristics
+import time
 
 # Game Class, for handling game loop eventually
 class RogueLike():
@@ -90,6 +91,7 @@ class RogueLike():
 
     def generate_level(self):
         """Delete all tiles in desired layer"""
+
         # fade in
         display_surface = pygame.display.set_mode((0, 0))
         fade = pygame.image.load("./sprites/sprite_png/fade.png")
@@ -99,8 +101,6 @@ class RogueLike():
         for i in range(255):
             fade.set_alpha(i)
             pygame.display.flip()
-
-
 
         for layer in self.tile_layers:
             for tile in self.tile_layers[layer]:
@@ -129,8 +129,8 @@ class RogueLike():
 
         # create the hero!
         characteristics = Characteristics(616,616,350, 350, 66,0,36,1.6, [])
-        self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10,10), characteristics)
-
+        self.hero = HeroSprite(self.tile_layers, self.sprite_handler, (10, 10), characteristics)
+        deadmau = pygame.image.load('./sprites/sprite_png/deadmau.png')
         # starts the game
         start = True
         while start:
@@ -138,11 +138,40 @@ class RogueLike():
             display_surface = pygame.display.set_mode((0, 0))
             display_surface.blit(startscreen, (0, 0))
             pygame.display.update()
+            time.sleep(1)
             events = pygame.event.get()
             for event in events:
                 if event.type == pygame.MOUSEBUTTONUP:
                     start = False
-                    run = True
+                    revive = False
+                    intro = True
+        # introduction screen
+        current_image = 0
+        introwords1 = pygame.image.load("./sprites/sprite_png/storywords1.png")
+        introwords2 = pygame.image.load("./sprites/sprite_png/storywords2.png")
+        introwords3 = pygame.image.load("./sprites/sprite_png/storywords3.png")
+        introwords4 = pygame.image.load("./sprites/sprite_png/storywords4.png")
+        intropic1 = pygame.image.load("./sprites/sprite_png/intro1.png")
+        intropic2 = pygame.image.load("./sprites/sprite_png/intro2.png")
+        intropic3 = pygame.image.load("./sprites/sprite_png/intro3.png")
+        intropic4 = pygame.image.load("./sprites/sprite_png/intro4.png")
+        instructions = pygame.image.load("./sprites/sprite_png/instructions.png")
+        itemguide = pygame.image.load("./sprites/sprite_png/itemguide.png")
+        introorder = [introwords1, intropic1, introwords2, intropic2, introwords3, intropic3, introwords4, intropic4
+                , instructions, itemguide]
+        while intro:
+            display_surface = pygame.display.set_mode((0, 0))
+            events = pygame.event.get()
+            for event in events:
+                time.sleep(.1)
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    current_image += 1
+            display_surface.blit(introorder[current_image], (0, 0))
+            pygame.display.update()
+            if current_image >= 9:
+                time.sleep(2)
+                intro = False
+                run = True
         # run the game loop until program is quit
         while run:
             # fetch all events such as keypressed
@@ -171,21 +200,24 @@ class RogueLike():
                     # quit the game when the hero's health is 0
                     dead = self.hero.characteristics.curr_health
                     while dead<=0:
-                        deadmau = pygame.image.load('./sprites/sprite_png/deadmau.png')
-                        display_surface = pygame.display.set_mode((0, 0))
-                        display_surface.blit(deadmau, (0, 0))
-                        pygame.display.update()
+                        print("dead")
                         events = pygame.event.get()
                         for event in events:
-                            if event.key == pygame.K_q:
-                                pygame.quit()
-                                return
-
-            self.sprite_render()
-        pygame.quit()
-
-
-
+                            print(event)
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_q:
+                                    print("quit")
+                                    pygame.quit()
+                                    return
+                                if event.key == pygame.K_SPACE:
+                                    revive = True
+                                    print("revive")
+                                    dead = False
+            self.spriteRender()
+        if revive:
+            pygame.quit()
+            print("revived")
+            RogueLike().gameloop()
 
 if __name__ == "__main__":
     # create the main object and run the loop function
