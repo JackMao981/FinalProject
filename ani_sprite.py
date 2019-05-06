@@ -299,15 +299,15 @@ class HeroSprite(pygame.sprite.Sprite):
     def animation_handler(self, direction):
         # depending on the delta, animate it.
         walk_style = '{direction}_walk'.format(direction=direction)
-        if walk_style=='left_walk':
+        if walk_style == 'left_walk':
             self.left_walk()
         if walk_style == 'right_walk':
             self.right_walk()
-        if walk_style=="down_walk":
+        if walk_style =="down_walk":
             self.right_walk()
-        if walk_style=='up_walk':
+        if walk_style =='up_walk':
             self.up_walk()
-        if walk_style=='mouse_front_static':
+        if walk_style == 'mouse_front_static':
             self.bop()
 
 
