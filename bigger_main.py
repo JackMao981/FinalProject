@@ -111,7 +111,6 @@ class RogueLike():
         self.hero.posReset((10, 10))
         self.map = Map()
 
-
         for i in range(255):
             fade.set_alpha(255 - i)
             pygame.display.flip()
@@ -159,6 +158,7 @@ class RogueLike():
         itemguide = pygame.image.load("./sprites/sprite_png/itemguide.png")
         introorder = [introwords1, intropic1, introwords2, intropic2, introwords3, intropic3, introwords4, intropic4
                 , instructions, itemguide]
+
         while intro:
             display_surface = pygame.display.set_mode((0, 0))
             events = pygame.event.get()
@@ -198,18 +198,29 @@ class RogueLike():
                     if event.key == pygame.K_DOWN:
                         delta = (0, 1)
                     self.hero.collisionHandler(self, delta)
+                    winner = self.hero.door_counter == 2
+
                     # quit the game when the hero's health is 0
                     dead = self.hero.characteristics.curr_health <= 0
                     if dead:
                         run = False
+                    if winner:
+                        run = False
             self.sprite_render()
-        deadmau = pygame.image.load('./sprites/sprite_png/deadmau.png')
-        display_surface = pygame.display.set_mode((0, 0))
-        display_surface.blit(deadmau, (0, 0))
-        pygame.display.update()
-
-        while dead:
+        if dead:
             print("dead")
+            deadmau = pygame.image.load('./sprites/sprite_png/deadmau.png')
+            display_surface = pygame.display.set_mode((0, 0))
+            display_surface.blit(deadmau, (0, 0))
+            pygame.display.update()
+        if winner:
+            print("winner")
+            deadneko = pygame.image.load('./sprites/sprite_png/scaledwinner.png')
+            display_surface = pygame.display.set_mode((0, 0))
+            display_surface.blit(deadneko, (0, 0))
+            pygame.display.update()
+
+        while dead or winner:
             events = pygame.event.get()
             for event in events:
                 print(event)
@@ -222,7 +233,7 @@ class RogueLike():
                         revive = True
                         print("revive")
                         dead = False
-                        run = False
+                        winner = False
 
         if revive:
             pygame.quit()

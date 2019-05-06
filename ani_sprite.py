@@ -12,71 +12,24 @@ import pyganim
 # they all used pink pretty much
 WALL_TILE = [(0, 0)]
 FLOOR_TILE = [(1, 0)]
-PLAYER_TILE = [(0, 3)]
+PLAYER_TILE = [(2, 0)]
 DOOR_TILE = [(3, 0)]
 ITEM_POTION_TILE = [(4, 0)]
-ITEM_HEART_TILE = [(4, 0)]
-ITEM_SHIELD_TILE = [(5, 0)]
+ITEM_HEART_TILE = [(1, 1)]
+ITEM_SHIELD_TILE = [(2, 1)]
 ENEMY_TILE = [(0, 1)]
-# New sprite sheet
-TILE_PATH = "sprites/master.bmp"
+SPRITE_PATH = "sprites/mousesheet.bmp"
 
-# has to be different bc different size
-NEKO_PATH = "sprites/nekoanisheet.bmp"
-
-# WIP for Hero movement
-front_standing = PLAYER_TILE
-back_standing = [(5, 3)]
-# left_standing = pygame.transform.flip(front_standing, True, False)
-
-# pyganim animation load order
-# to have them work call with animation.play()
-mouse_front_static = pyganim.PygAnimation([('../sprites/sprite_png/scaledmouse0.png', 600),
-                                ('../sprites/sprite_png/scaledmousefrontstatic1.png', 200),
-                                ('../sprites/sprite_png/scaledmousefrontstatic2.png', 200),
-                                ('../sprites/sprite_png/scaledmousefrontstatic1.png', 200)])
-mouse_front_walk = pyganim.PygAnimation([('/home/lee/FinalProject/sprites/sprite_png/scaledmousefront0.png', 400),
-                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmousefront0.png', 200),
-                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmousefront1.png', 200),
-                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmousefront0.png', 200)])
-mouse_back_static = pyganim.PygAnimation([('/home/lee/FinalProject/sprites/sprite_png/scaledmouseback0.png', 400),
-                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmousebacks0.png', 200),
-                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmousebacks1.png', 200),
-                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmousebacks0.png', 200)])
-mouse_back_walk = pyganim.PygAnimation([('/home/lee/FinalProject/sprites/sprite_png/scaledmouseback0.png', 400),
-                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmouseback0.png', 200),
-                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmouseback1.png', 200),
-                                ('/home/lee/FinalProject/sprites/sprite_png/scaledmouseback0.png', 200)])
-enemy = pyganim.PygAnimation([('/home/lee/FinalProject/sprites/sprite_png/scaledenemy0.png', 400),
-                                ('/home/lee/FinalProject/sprites/sprite_png/scaledenemy1.png', 200),
-                                ('/home/lee/FinalProject/sprites/sprite_png/scaledenemy2.png', 200),
-                                ('/home/lee/FinalProject/sprites/sprite_png/scaledenemy1.png', 200)])
-count_neko = pyganim.PygAnimation([('/home/lee/FinalProject/sprites/sprite_png/cn0.png', 600),
-                                ('/home/lee/FinalProject/sprites/sprite_png/cn1.png', 200),
-                                ('/home/lee/FinalProject/sprites/sprite_png/cn2.png', 200),
-                                ('/home/lee/FinalProject/sprites/sprite_png/cn1.png', 200)])
+# mousey movement
 
 
-
-
-animTypes = 'back_walk front_walk left_walk'.split()
-animObjs = {}
-for animType in animTypes:
-    imagesAndDurations = [(TILE_PATH + "/" + animType + str(num).rjust(3, '0'), (1)) for num in range(6)]
-    print(imagesAndDurations)
-    animObjs[animType] = pyganim.PygAnimation(imagesAndDurations)
-
-# sets left walk
-animObjs['left_walk'] = animObjs['right_walk'].getCopy()
-animObjs['left_walk'].flip(True, False)
-animObjs['left_walk'].makeTransformsPermanent()
-
-# move conductor
-moveConductor = pygamim.PygConductor(animObjs)
-direction = "DOWN"
+mouse_front_static = pyganim.PygAnimation([('./sprites/sprite_png/scaledmouse0.png', 600),
+                                ('./sprites/sprite_png/scaledmousefrontstatic1.png', 200),
+                                ('./sprites/sprite_png/scaledmousefrontstatic2.png', 200),
+                                ('./sprites/sprite_png/scaledmousefrontstatic1.png', 200)])
 
 class SpriteHandler:
-    """Sprite class to handle common sprite operations for sprites animations"""
+    """Sprite class to handle common sprite operations"""
     def __init__(self):
         # load the texture file into a surface
         # the beginner guide on pygame told me
@@ -109,40 +62,7 @@ class SpriteHandler:
                 # fetch them using this system,
                 self.sprites[y * self.tileset_width + x] = self.imageHandler((x * self.tile_width,
                                                                              y * self.tile_height), 256)
-class NekoSpriteHandler:
-    """Sprite class to handle common sprite operations for Count Neko (32x32)"""
-    def __init__(self):
-        # load the texture file into a surface
-        # the beginner guide on pygame told me
-        # that .convert increases render speed
-        self.tilemap = pygame.image.load(NEKO_PATH).convert()
-        self.tilemap_width, self.tilemap_height = self.tilemap.get_size() # 1024 x 1024
 
-        # set per-tile size
-        self.tile_width = 32
-        self.tile_height = 32
-
-        # make a coordinate system in terms of tile size
-        # e.g. 256x256 divided into 16x16 tiles
-        self.tileset_width = int(self.tilemap_width / self.tile_width)
-        self.tileset_height = int(self.tilemap_height / self.tile_height)
-
-        self.tile_count = self.tileset_height * self.tileset_width
-
-        # initialize a list of the right size of sprites
-        self.sprites = [None for _ in range(self.tile_count)]
-
-        # loop through the coordinates of the tileset, e.g. 256/16
-        for x in range(self.tileset_height):
-            for y in range(self.tileset_width):
-                # set the sprite at a given position to the corresponding
-                # position this is like reshaping a matrix into a 1D vector
-                # of "pixels" where the "pixels" are instead our tiles
-
-                # Later, we can define where the wall or item tiles are and
-                # fetch them using this system,
-                self.sprites[y * self.tileset_width + x] = self.imageHandler((x * self.tile_width,
-                                                                             y * self.tile_height), 256)
     def imageHandler(self, position, sprite_size):
         """returns a pygame surface containing the
         tile at the given x,y position in terms
@@ -270,16 +190,18 @@ class HeroSprite(pygame.sprite.Sprite):
         self.group = layer["TILE_HERO"]
         pygame.sprite.Sprite.__init__(self, self.group)
         self.characteristics = characteristics
-        self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in PLAYER_TILE]
-        self.tile = self.tiles[0]
-        self.rect = self.tile.get_rect()
+        self.tile = mouse_front_static
         self.pos = pygame.math.Vector2(position[0], position[1])
-        self.rect.topleft = self.pos * 256
+        self.hit_sound = pygame.mixer.Sound('Sounds/sword.wav')
+        self.item_sound = pygame.mixer.Sound('Sounds/pickup.wav')
+        #self.enemy_sound = pygame.mixer.Sound('Sounds/meow.wav')
+        self.game_over_sound = pygame.mixer.Sound('Sounds/evil_laugh.wav')
+        self.door_sound = pygame.mixer.Sound('Sounds/checkpoint.wav')
 
     def update(self):
-       """handles sprite rect location in terms of pixels"""
-       self.rect.x = self.pos.x * 256
-       self.rect.y = self.pos.y * 256
+        """handles sprite rect location in terms of pixels"""
+        self.rect.x = self.pos.x * 256
+        self.rect.y = self.pos.y * 256
 
     def posReset(self, position):
         """reset the position of the player on level change
@@ -291,25 +213,10 @@ class HeroSprite(pygame.sprite.Sprite):
         self.rect.topleft = self.pos * 256
 
     def move(self, delta):
-       """handles tiles
-       delta: tuple with dx and dy, respectively"""
-       self.pos.x += delta[0]
-       self.pos.y += delta[1]
-
-    def animation_handler(self, direction):
-        # depending on the delta, animate it.
-        walk_style = '{direction}_walk'.format(direction=direction)
-        if walk_style == 'left_walk':
-            self.left_walk()
-        if walk_style == 'right_walk':
-            self.right_walk()
-        if walk_style =="down_walk":
-            self.right_walk()
-        if walk_style =='up_walk':
-            self.up_walk()
-        if walk_style == 'mouse_front_static':
-            self.bop()
-
+        """handles tiles
+        delta: tuple with dx and dy, respectively"""
+        self.pos.x += delta[0]
+        self.pos.y += delta[1]
 
 
     def collide(self, layer, delta):
@@ -329,6 +236,7 @@ class HeroSprite(pygame.sprite.Sprite):
         for tile in layer:
             if (tile.pos.x == self.pos.x + delta[0] and tile.pos.y == self.pos.y + delta[1]):
                 print("You're done!")
+                self.door_sound.play()
                 return True
         return False
 
@@ -342,12 +250,16 @@ class HeroSprite(pygame.sprite.Sprite):
         if self.collide(rogue.tile_layers["TILE_ENEMY"], delta):
             # handle damage chance / attach interaction
             self.attack(self.collide(rogue.tile_layers["TILE_ENEMY"], delta))
+            print("Health: ", self.characteristics.curr_health, "/", self.characteristics.max_health)
         if self.collide(rogue.tile_layers["TILE_ITEM"], delta):
             # handle damage chance / attach interaction
-            print("item get")
+            print("item get", self.collide(rogue.tile_layers["TILE_ITEM"], delta).item.name)
             self.characteristics.add_item(self.collide(rogue.tile_layers["TILE_ITEM"], delta).item)
             self.collide(rogue.tile_layers["TILE_ITEM"], delta).kill()
-        if not self.collide(rogue.tile_layers["TILE_WALL"], delta):
+            self.item_sound.play()
+        if self.collide(rogue.tile_layers["TILE_WALL"], delta):
+            self.hit_sound.play()
+        if not self.collide(rogue.tile_layers["TILE_WALL"], delta) and not self.collide(rogue.tile_layers["TILE_ENEMY"], delta) :
             self.move(delta)
 
     def attack(self, enemy):
@@ -360,8 +272,11 @@ class HeroSprite(pygame.sprite.Sprite):
         self.characteristics.curr_health -= hero_damage_taken
         enemy.characteristics.curr_health -= enemy_damage_taken
         if (enemy.characteristics.curr_health <= 0):
+            #self.enemy_sound.play()
             enemy.kill()
         print("I'm attacking")
+        #self.enemy_sound.play()
+        self.hit_sound.play()
 
 class EnemySprite(pygame.sprite.Sprite):
     """Class Representing the player,
@@ -386,9 +301,9 @@ class EnemySprite(pygame.sprite.Sprite):
         self.rect.topleft = self.pos * 256
 
     def update(self):
-       """handles sprite rect location in terms of pixels"""
-       self.rect.x = self.pos.x * 256
-       self.rect.y = self.pos.y * 256
+        """handles sprite rect location in terms of pixels"""
+        self.rect.x = self.pos.x * 256
+        self.rect.y = self.pos.y * 256
 
     def posReset(self, position):
         """reset the position of the player on level change
@@ -400,10 +315,10 @@ class EnemySprite(pygame.sprite.Sprite):
         self.rect.topleft = self.pos * 256
 
     def move(self, delta):
-       """handles tiles
-       delta: tuple with dx and dy, respectively"""
-       self.pos.x += delta[0]
-       self.pos.y += delta[1]
+        """handles tiles
+        delta: tuple with dx and dy, respectively"""
+        self.pos.x += delta[0]
+        self.pos.y += delta[1]
 
 #    def collide(self, layer, delta):
 #        """check if character will collide with the given layer:
@@ -431,10 +346,16 @@ class ItemSprite(pygame.sprite.Sprite):
         # uses list comprehension to grab
         # locations from my const and fetches
         # images for those locations
-        self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in ITEM_TILE]
+        list_of_items = [Potion(), Shield(), Heart()]
+        rand = random.randint(0,2)
+        if(rand == 0):
+            self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in ITEM_POTION_TILE]
+        elif(rand == 1):
+            self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in ITEM_SHIELD_TILE]
+        elif(rand == 2):
+            self.tiles = [sprite_sheet.get_sprite(tiles) for tiles in ITEM_HEART_TILE]
         self.tile = self.tiles[0]
-
-        self.item = Potion()
+        self.item = list_of_items[rand]
         self.rect = self.tile.get_rect()
         self.pos = pygame.math.Vector2(position[0], position[1])
         self.rect.topleft = self.pos * 256
@@ -462,6 +383,8 @@ class Characteristics:
         self.spd = spd
         self.true_damage = true_damage
         self.items = items
+        self.item_sound = pygame.mixer.Sound('Sounds/pickup.wav')
+        self.damage_sound = pygame.mixer.Sound('Sounds/squeaka.wav')
 
 
     # a function used to check your current health
@@ -501,6 +424,7 @@ class Characteristics:
         true_damage = input_damage[1]
         if (self.armor <= 0):
             return (2 - (100/(100-self.armor))) * damage + true_damage
+            self.damage_sound.play()
         else:
             return (100/(100+self.armor)) * damage + true_damage
 
@@ -524,6 +448,7 @@ class Characteristics:
             if (key == "mana"):
                 self.mana += item.modifiers[key]
         self.items.append(item.name)
+        self.item_sound.play()
 
 class Item:
     def __init__(self, modifiers, name):
@@ -535,10 +460,34 @@ class Item:
         self.modifiers = modifiers
         self.name = name
 class Potion(Item):
-    def __init__(self, modifiers = {"health":80, "armor": 10}, name = "Doran's Shield"):
+    def __init__(self, modifiers = {"health":80}, name = "Doran's Shield"):
         """
-        creates Doran_sheild, an item that modifies max_health and armor
-        Doran sheild be initialized by its default values only
+        creates Doran_shield, an item that modifies max_health and armor
+        Doran shield be initialized by its default values only
+        modifiers: dictionary, stores the attributes of the item
+        name: string, stores the name of the item
+        """
+        Item.__init__(self, modifiers, name)
+        self.modifiers = modifiers
+        self.name = name
+
+class Shield(Item):
+    def __init__(self, modifiers = {"armor": 10}, name = "Doran's Shield"):
+        """
+        creates Doran_shield, an item that modifies max_health and armor
+        Doran shield be initialized by its default values only
+        modifiers: dictionary, stores the attributes of the item
+        name: string, stores the name of the item
+        """
+        Item.__init__(self, modifiers, name)
+        self.modifiers = modifiers
+        self.name = name
+
+class Heart(Item):
+    def __init__(self, modifiers = {"max_health": 10}, name = "Doran's Shield"):
+        """
+        creates Doran_shield, an item that modifies max_health and armor
+        Doran shield be initialized by its default values only
         modifiers: dictionary, stores the attributes of the item
         name: string, stores the name of the item
         """

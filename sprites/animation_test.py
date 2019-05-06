@@ -8,7 +8,7 @@ import pyganim
 
 
 # Count Neko
-
+""""
 pygame.init()
 windowSurface = pygame.display.set_mode((400, 400))
 pygame.display.set_caption('Count Neko Demo')
@@ -32,8 +32,8 @@ while True:
     count_neko.blit(windowSurface, (0, 0))
     pygame.display.update()
 
-
 """
+
 # Mouse Front Static
 pygame.init()
 windowSurface = pygame.display.set_mode((400, 400))
@@ -58,7 +58,7 @@ while True:
     mouse_front_static.blit(windowSurface, (0, 0))
     pygame.display.update()
     
-"""
+
 
 
 """

@@ -190,6 +190,7 @@ class HeroSprite(pygame.sprite.Sprite):
         self.hit_sound = pygame.mixer.Sound('Sounds/sword.wav')
         self.item_sound = pygame.mixer.Sound('Sounds/pickup.wav')
         #self.enemy_sound = pygame.mixer.Sound('Sounds/meow.wav')
+        self.door_counter = 1
         self.game_over_sound = pygame.mixer.Sound('Sounds/evil_laugh.wav')
         self.door_sound = pygame.mixer.Sound('Sounds/checkpoint.wav')
 
@@ -232,6 +233,7 @@ class HeroSprite(pygame.sprite.Sprite):
             if (tile.pos.x == self.pos.x + delta[0] and tile.pos.y == self.pos.y + delta[1]):
                 print("You're done!")
                 self.door_sound.play()
+                self.door_counter += 1
                 return True
         return False
 
