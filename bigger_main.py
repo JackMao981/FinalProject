@@ -198,8 +198,8 @@ class RogueLike():
                         delta = (0, 1)
                     self.hero.collisionHandler(self, delta)
                     # quit the game when the hero's health is 0
-                    dead = self.hero.characteristics.curr_health
-                    while dead<=0:
+                    dead = self.hero.characteristics.curr_health <= 0
+                    while dead:
                         print("dead")
                         events = pygame.event.get()
                         for event in events:
@@ -213,7 +213,8 @@ class RogueLike():
                                     revive = True
                                     print("revive")
                                     dead = False
-            self.spriteRender()
+                                    run = False
+            self.sprite_render()
         if revive:
             pygame.quit()
             print("revived")
