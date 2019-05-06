@@ -173,6 +173,7 @@ class RogueLike():
                 intro = False
                 run = True
         # run the game loop until program is quit
+        dead = False
         while run:
             # fetch all events such as keypressed
             events = pygame.event.get()
@@ -199,22 +200,30 @@ class RogueLike():
                     self.hero.collisionHandler(self, delta)
                     # quit the game when the hero's health is 0
                     dead = self.hero.characteristics.curr_health <= 0
-                    while dead:
-                        print("dead")
-                        events = pygame.event.get()
-                        for event in events:
-                            print(event)
-                            if event.type == pygame.KEYDOWN:
-                                if event.key == pygame.K_q:
-                                    print("quit")
-                                    pygame.quit()
-                                    return
-                                if event.key == pygame.K_SPACE:
-                                    revive = True
-                                    print("revive")
-                                    dead = False
-                                    run = False
+                    if dead:
+                        run = False
             self.sprite_render()
+        deadmau = pygame.image.load('./sprites/sprite_png/deadmau.png')
+        display_surface = pygame.display.set_mode((0, 0))
+        display_surface.blit(deadmau, (0, 0))
+        pygame.display.update()
+
+        while dead:
+            print("dead")
+            events = pygame.event.get()
+            for event in events:
+                print(event)
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_q:
+                        print("quit")
+                        pygame.quit()
+                        return
+                    if event.key == pygame.K_SPACE:
+                        revive = True
+                        print("revive")
+                        dead = False
+                        run = False
+
         if revive:
             pygame.quit()
             print("revived")
