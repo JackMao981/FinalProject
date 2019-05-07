@@ -1,4 +1,4 @@
-# Final Project - Little Mouse
+# Final Project - Of Mice and Cats
 ### By Jack Mao, Lee Smith, and Melissa Anthony
 
 ## Overview
@@ -32,4 +32,4 @@ follows:
 Acknowledgements: 
 Jack Mao and Dieter Brehn's MP4: Dithered
 Pygame & Pyganim Community
-
+Hoog from StackOverflow with his help with the introduction slides
