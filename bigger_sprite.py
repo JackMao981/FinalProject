@@ -1,5 +1,6 @@
 import pygame
 import random
+import time
 
 # Define where objects are in our sprite file.
 # Each sprite is 16x16 pixels in size, and the
@@ -13,10 +14,11 @@ WALL_TILE = [(0, 0)]
 FLOOR_TILE = [(1, 0)]
 PLAYER_TILE = [(2, 0)]
 DOOR_TILE = [(3, 0)]
+HEART_GAUGE = [(3, 1)]
 ITEM_POTION_TILE = [(4, 0)]
 ITEM_HEART_TILE = [(1, 1)]
 ITEM_SHIELD_TILE = [(2, 1)]
-ENEMY_TILE = [(0, 1)]
+ENEMY_TILE = [(0, 1), (4, 1)]
 SPRITE_PATH = "sprites/mousesheet.bmp"
 
 
@@ -244,10 +246,12 @@ class HeroSprite(pygame.sprite.Sprite):
         if self.doorCollide(rogue.tile_layers["TILE_DOOR"], delta):
             print("level done!")
             rogue.generate_level()
+
         if self.collide(rogue.tile_layers["TILE_ENEMY"], delta):
             # handle damage chance / attach interaction
             self.attack(self.collide(rogue.tile_layers["TILE_ENEMY"], delta))
             print("Health: ", self.characteristics.curr_health, "/", self.characteristics.max_health)
+
         if self.collide(rogue.tile_layers["TILE_ITEM"], delta):
             # handle damage chance / attach interaction
             print("item get", self.collide(rogue.tile_layers["TILE_ITEM"], delta).item.name)
@@ -270,6 +274,9 @@ class HeroSprite(pygame.sprite.Sprite):
         enemy.characteristics.curr_health -= enemy_damage_taken
         if (enemy.characteristics.curr_health <= 0):
             #self.enemy_sound.play()
+            enemy.tile = enemy.tiles[1]
+            enemy.rect = enemy.tile.get_rect()
+            pygame.display.update()
             enemy.kill()
         print("I'm attacking")
         #self.enemy_sound.play()
