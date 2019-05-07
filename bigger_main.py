@@ -80,9 +80,7 @@ class RogueLike():
         curr_bar = pygame.Rect(x_location + 5, y_location + 5 + (1-ratio) * (height - 10),
                             height-10, ratio * (height - 10))
         pygame.draw.rect(self.screen, (255, 0, 0), curr_bar)
-        bigheart = pygame.image.load("./sprites/sprite_png/bigheart.png")
-        bigheart.set_colorkey((100, 0, 100))
-        self.screen.blit(bigheart, (10, 10))
+
 
         """
         if curr_health<50:
